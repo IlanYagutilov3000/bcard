@@ -1,11 +1,17 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
- /* media for making the mobile much easier on the user */
-@media(max-width: 440px){
-    .forMediaQuary{
+
+/* media for making the mobile much easier on the user */
+@media(max-width: 440px) {
+    .forMediaQuary {
         width: 100% !important;
     }
+}
+
+.imgSize img {
+    width: 40px;
+    border-radius: 20px;
 }

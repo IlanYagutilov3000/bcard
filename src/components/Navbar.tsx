@@ -1,7 +1,10 @@
 import { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { SiteTheme } from "../App";
+/* import { SiteTheme } from "../App"; */
 import { getUserById } from "../services/userService";
+import { User } from "../interfaces/User";
+import { useUserContext } from "../context/userContext";
+import useToken from "../customHooks/useToken";
 
 interface NavbarProps {
     darkMode: boolean;
@@ -10,42 +13,72 @@ interface NavbarProps {
 
 
 const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
-    const theme = useContext(SiteTheme)
+    /* const theme = useContext(SiteTheme) */
+    const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
+    const { afterDecode } = useToken();
     const navigate = useNavigate()
-    const [isBusiness, setIsBusiness] = useState<boolean>(false)
-    const [loggedIn, setLoggedIn] = useState<boolean>(false)
+
+    const [user, setUser] = useState<User | null>(null)
     useEffect(() => {
-        getUserById().then((res) => {
-            setLoggedIn(true)
-            setIsBusiness(res.data.isBusiness)
-            /* console.log(isBusiness); */
+        if (afterDecode && localStorage.token) {
+            getUserById().then((res) => {
+                setIsLogedIn(true)
+                setIsBusiness(res.data.isBusiness)
+                setUser(res.data)
+            }).catch((err) => {
+                console.log(err)
 
-        }).catch((err) => {
-            console.log(err)
+            })
+        }
 
-        })
     }, []);
+    useEffect(() => {
+        if (afterDecode) {
+            setAuth(afterDecode);
+            setIsLogedIn(true);
+            setIsAdmin(afterDecode.isAdmin);
+            setIsBusiness(afterDecode.isBusiness);
+        } else {
+            setIsLogedIn(false);
+            setIsAdmin(false);
+            setIsBusiness(false)
+        }
+    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
+
+    const handleLogout = () => {
+        setAuth(null);
+        navigate("/login")
+        setIsAdmin(false);
+        setIsBusiness(false)
+        setIsLogedIn(false);
+        setUser(null)
+        localStorage.removeItem("token");
+    };
+
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ color: theme.color, backgroundColor: theme.background }}>
-                <div className="container-fluid" style={{ color: theme.color, backgroundColor: theme.background }}>
-                    <NavLink className="navbar-brand" to={'/'} style={{ color: theme.color, backgroundColor: theme.background }}>BCard</NavLink >
+            <nav className="navbar navbar-expand-lg bg-body-tertiary" >
+                <div className="container-fluid" >
+                    <NavLink className="navbar-brand" to={'/'} >BCard</NavLink >
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
                         <span className="navbar-toggler-icon" ></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{ color: theme.color, backgroundColor: theme.background }}>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent" >
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item" >
-                                <NavLink className="nav-link active" aria-current="page" to={'/about'} style={{ color: theme.color, backgroundColor: theme.background }}>About</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/about'} >About</NavLink>
                             </li>
-                            {loggedIn && <li className="nav-item" >
-                                <NavLink className="nav-link active" aria-current="page" to={'/fav-cards'} style={{ color: theme.color, backgroundColor: theme.background }}>Fav Cards</NavLink>
+                            {isLogedIn && <li className="nav-item" >
+                                <NavLink className="nav-link active" aria-current="page" to={'/fav-cards'} >Fav Cards</NavLink>
                             </li>}
                             {isBusiness && <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to={'/my-cards'} style={{ color: theme.color, backgroundColor: theme.background }}>My Cards</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/my-cards'} >My Cards</NavLink>
+                            </li>}
+                            {isAdmin && <li className="nav-item">
+                                <NavLink className="nav-link active" aria-current="page" to={'/sandbox'} >SandBox</NavLink>
                             </li>}
                         </ul>
-                        <div className="form-check form-switch" style={{ color: theme.color, backgroundColor: theme.background }}>
+                        <div className="form-check form-switch" >
                             <input
                                 className="form-check-input"
                                 type="checkbox"
@@ -62,27 +95,21 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit" >Search</button>
                         </form>
-                        {/* need to work on the if logged*/}
-                        {loggedIn ? (<><div className="btn-group">
-                            <button className="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="logo192.png" alt="asdads" />
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><button onClick={() => {
-                                    localStorage.removeItem("token")
-                                    navigate("/login")
-                                    setLoggedIn(!loggedIn)
-                                }}>logout</button></li>
-                            </ul>
+                        {isLogedIn ? (<><div className="imgSize">
+                            <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
+                            <button onClick={() => {
+                                handleLogout()
+                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right"></i></button>
+
                         </div>
                         </>)
                             : (<>
                                 <button onClick={() => {
                                     navigate('/signup')
-                                }} className="btn btn" style={{ color: theme.color, backgroundColor: theme.background }}>Signup</button>
+                                }} className="btn btn-primary mx-1" /* style={{ color: theme.color, backgroundColor: theme.background }} */>Signup</button>
                                 <button onClick={() => {
                                     navigate('/login')
-                                }} className="btn btn" style={{ color: theme.color, backgroundColor: theme.background }}>Login</button>
+                                }} className="btn btn-warning" /* style={{ color: theme.color, backgroundColor: theme.background }} */>Login</button>
                             </>)}
 
                     </div>

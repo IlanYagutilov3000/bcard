@@ -1,10 +1,12 @@
 import { FormikValues, useFormik } from "formik";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { userLogin } from "../services/userService";
 import { errorMsg, successMsg } from "../services/feedback";
 import { jwtDecode } from "jwt-decode";
+import { useUserContext } from "../context/userContext";
+import useToken from "../customHooks/useToken";
 
 
 
@@ -13,9 +15,22 @@ interface LoginProps {
 }
 
 const Login: FunctionComponent<LoginProps> = () => {
-    const [tokenHolder, setTokenHolder] = useState<any>();
+    const { afterDecode } = useToken();
+    const { setAuth, setIsBusiness, setIsAdmin, isLogedIn, setIsLogedIn } = useUserContext()
+    /* const [tokenHolder, setTokenHolder] = useState<any>(); */
     const navigate = useNavigate()
     /* needs to change it to User intreface */
+
+    useEffect(() => {
+        if (afterDecode && localStorage.token) {
+            setIsLogedIn(true);
+            navigate("/");
+        } else {
+            setIsLogedIn(false);
+            return;
+        }
+    }, [afterDecode]);
+
     const formik: FormikValues = useFormik({
         initialValues: {
             email: "",
@@ -24,18 +39,17 @@ const Login: FunctionComponent<LoginProps> = () => {
         validationSchema: yup.object({
             email: yup.string().required().email(),
             password: yup.string().required().min(8).matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){4})(?=.*[!@%$#^&*\-_+()]).{8,}$/,
+                /^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){3})(?=.*[!@%$#^&*\-_+()]).{8,}$/,
                 "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, at least 4 numbers and at least one of the following characters !@#$%^&*-"
             )
         }),
         onSubmit: (values) => {
             userLogin(values.email, values.password).then((res: any) => {
                 /* localStorage.setItem("token", JSON.stringify(token)) */
-                localStorage.setItem("token", JSON.stringify(res.data))
+                localStorage.token = res.data
                 /* may need to change the name of this var */
-                const token = jwtDecode(res.data)
-                setTokenHolder(token)
-                console.log(token);
+                /* setTokenHolder(token) */
+                setAuth(afterDecode);
                 navigate("/")
                 successMsg("You've Loggedin successfully")
             }).catch((err) => {

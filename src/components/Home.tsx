@@ -4,6 +4,7 @@ import { getAllCards } from "../services/cardService";
 import { getUserById } from "../services/userService";
 import axios from "axios";
 import { User } from "../interfaces/User";
+import { useUserContext } from "../context/userContext";
 
 interface HomeProps {
 
@@ -13,6 +14,7 @@ const Home: FunctionComponent<HomeProps> = () => {
     const [cards, setCards] = useState<Card[]>([])
     const [isBusiness, setIsBusiness] = useState<boolean>(false)
     const [loggedIn, setLoggedIn] = useState<boolean>(false)
+    const {isAdmin} = useUserContext()
     useEffect(() => {
         getAllCards().then((res) => setCards(res.data)).catch((err) => console.log(err)
         )
@@ -57,10 +59,10 @@ const Home: FunctionComponent<HomeProps> = () => {
                                     <p className="card-text text-success m-0"><span className="fw-bold">Card Number: </span>{card.bizNumber}</p>
                                 </div>
                                 <div className="d-flex p-0 justify-content-between">
-                                    {/* {isAdmin && <div>
-                                        <button>Trash</button>
+                                    {isAdmin && <div>
+                                        <button className="btn"><i className="fa-solid fa-trash"></i></button>
 
-                                    </div>} */}
+                                    </div>}
                                     {loggedIn && <div>
                                         <button className="btn"><i className="fa-solid fa-phone"></i></button>
                                         <button className="btn"><i className="fa-solid fa-heart "></i></button>
