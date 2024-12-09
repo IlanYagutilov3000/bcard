@@ -4,6 +4,7 @@ import Card from "../interfaces/Card";
 import CreateCardModal from "./CreateCardModal";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
+import UpdateCardModal from "./UpdateCardModal";
 
 interface MyCardsProps {
 
@@ -13,6 +14,8 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
     const [myCards, setMyCards] = useState<Card[]>([])
     const [cardChanged, setCardChanged] = useState<boolean>(false)
     const [openUpadCardteModal, setOpenUpadCardteModal] = useState<boolean>(false);
+    const [openEditCard, setOpenEditCard] = useState<boolean>(false)
+    const [cardId, setCardId] = useState<string>("")
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
     const { afterDecode } = useToken();
 
@@ -84,6 +87,11 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                                                 })
                                             }
                                         }} ><i className="fa-solid fa-trash"></i></button>
+
+                                        <button className="btn" onClick={() => {
+                                            setOpenEditCard(true)
+                                            setCardId(card._id as string)
+                                        }} ><i className="fa-solid fa-pen"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +103,8 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
             </div>
         
             <CreateCardModal show={openUpadCardteModal} onHide={() => setOpenUpadCardteModal(false)} refresh={refresh} />
+            
+            <UpdateCardModal show={openEditCard} onHide={() => setOpenEditCard(false)} refresh={refresh} cardId={cardId} />
 
         </>
     );

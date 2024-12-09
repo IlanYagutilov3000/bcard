@@ -35,8 +35,8 @@ export function createNewCard(newCard: Card) {
 }
 
 //update card
-export function updateCard(cardId: string) {
-    return axios.put(`${api}/${cardId}`, { headers: { "x-auth-token": token } })
+export function updateCard(cardId: string, updateCard: Card) {
+    return axios.put(`${api}/${cardId}`, updateCard, { headers: { "x-auth-token": token } })
 }
 
 //like unlike a card

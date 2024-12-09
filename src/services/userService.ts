@@ -23,7 +23,6 @@ export function userLogin(email: string, password: string) {
     return axios.post(`${api}/login`, { email, password })
 }
 
-
 //get user by id
 export function getUserById() {
     if (token === null || token === undefined) {
@@ -46,14 +45,9 @@ export function getUserByIdTwo(userId: string) {
 }
 
 //edit user
-export async function editUser(user: UpdatedUser) {
-    const decoded: any = jwtDecode<JwtPayload>(token as string)
-    return await axios.put(`${api}/${decoded._id}`, user, { headers: { "x-auth-token": token } })
+export async function editUser(userId: string, user: UpdatedUser) {
+    return await axios.put(`${api}/${userId}`, user, { headers: { "x-auth-token": token } })
 }
-
-/* export function editUser(user: UpdatedUser) {
-    return axios.put(`${api}/${user.id}`, user, { headers: { "x-auth-token": token } })
-} */
 
 //delete user
 export function deleteUser(id: string) {
