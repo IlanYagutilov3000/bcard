@@ -1,17 +1,17 @@
 export interface UpdatedUser {
-    id?: string,
+    _id?: string,
     name: {
         first: string,
         middle?: string,
         last: string
     },
     phone: string,
-    image?: {
+    image: {
         url: string,
         alt: string
     },
     address: {
-        state: string,
+        state?: string,
         country: string,
         city: string,
         street: string,

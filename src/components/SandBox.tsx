@@ -29,7 +29,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
     return (
         <>
             <div className="container">
-                <h5 className="text-center">All the users</h5>
+                <h5 className="text-center">All Users</h5>
                 {users.length ? (<table className="table table-bordered border-primary">
                     <thead>
                         <tr>
@@ -59,7 +59,25 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             }} ><i className="fa-solid fa-trash text-danger"></i></button></td>
                         </tr>))}
                     </tbody>
-                </table>) : (<p>No Users Found</p>)}
+                </table>) : (<p>
+                    <div className="loader">
+                        <div className="circle">
+                            <div className="dot"></div>
+                            <div className="outline"></div>
+                        </div>
+                        <div className="circle">
+                            <div className="dot"></div>
+                            <div className="outline"></div>
+                        </div>
+                        <div className="circle">
+                            <div className="dot"></div>
+                            <div className="outline"></div>
+                        </div>
+                        <div className="circle">
+                            <div className="dot"></div>
+                            <div className="outline"></div>
+                        </div>
+                    </div></p>)}
             </div>
 
             <UpdateUserModal show={openUpdateUser} onHide={() => setOpenUpdateUser(false)} refresh={refresh} userId={userId} />

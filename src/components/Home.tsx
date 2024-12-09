@@ -1,10 +1,12 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import Card from "../interfaces/Card";
-import { getAllCards } from "../services/cardService";
+import { deleteCard, getAllCards, likeAndUnlike, /* likeAndUnlike */ } from "../services/cardService";
 import { getUserById } from "../services/userService";
 import axios from "axios";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
+import useToken from "../customHooks/useToken";
+import { successMsg } from "../services/feedback";
 
 interface HomeProps {
 
@@ -12,24 +14,40 @@ interface HomeProps {
 
 const Home: FunctionComponent<HomeProps> = () => {
     const [cards, setCards] = useState<Card[]>([])
-    const [isBusiness, setIsBusiness] = useState<boolean>(false)
-    const [loggedIn, setLoggedIn] = useState<boolean>(false)
-    const {isAdmin} = useUserContext()
+    const [cardChanged, setCardChanged] = useState<boolean>(false)
+    const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
+    const { afterDecode } = useToken();
+    const { } = useUserContext();
+    const [likedCards, setLikedCards] = useState<{ [key: string]: boolean }>({});
+
+
+
     useEffect(() => {
         getAllCards().then((res) => setCards(res.data)).catch((err) => console.log(err)
         )
-    }, [])
+    }, [cardChanged]);
+
     useEffect(() => {
-        getUserById().then((res) => {
-            setIsBusiness(res.data.isBusiness)
-            setLoggedIn(true)
-            /* console.log(isBusiness); */
+        if (afterDecode) {
+            setAuth(afterDecode);
+            setIsLogedIn(true);
+            setIsAdmin(afterDecode.isAdmin);
+            setIsBusiness(afterDecode.isBusiness);
+        } else {
+            setIsLogedIn(false);
+            setIsAdmin(false);
+            setIsBusiness(false)
+        }
+    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
 
-        }).catch((err) => {
-            console.log(err)
+    const handleLikeToggle = (cardId: string) => {
+        // Toggle the like status in the state
+        setLikedCards((prevLikedCards) => ({
+            ...prevLikedCards,
+            [cardId]: !prevLikedCards[cardId], // Toggle like status
+        }));
+    };
 
-        })
-    }, []);
     return (
         <>
             <h1 className="display-1">Cards Page</h1>
@@ -60,18 +78,49 @@ const Home: FunctionComponent<HomeProps> = () => {
                                 </div>
                                 <div className="d-flex p-0 justify-content-between">
                                     {isAdmin && <div>
-                                        <button className="btn"><i className="fa-solid fa-trash"></i></button>
-
+                                        <button className="btn" onClick={() => {
+                                            // make this into a modal
+                                            if (window.confirm("are you sure")) {
+                                                deleteCard(card._id as string, card.bizNumber as number).then(() => {
+                                                    setCardChanged(!cardChanged)
+                                                }).catch((err) => {
+                                                    console.log(err);
+                                                })
+                                            }
+                                        }} ><i className="fa-solid fa-trash"></i></button>
                                     </div>}
-                                    {loggedIn && <div>
-                                        <button className="btn"><i className="fa-solid fa-phone"></i></button>
-                                        <button className="btn"><i className="fa-solid fa-heart "></i></button>
+                                    <div><button className="btn"><i className="fa-solid fa-phone"></i></button></div>
+                                    {isLogedIn && <div>
+                                        {/* <button className="btn"><i className="fa-solid fa-phone"></i></button> */}
+                                        <button className="btn" onClick={() => {
+                                            handleLikeToggle(card._id as string)
+                                            likeAndUnlike(card._id as string, auth?._id as string)
+                                        }} ><i className={`fa-solid fa-heart ${likedCards[card._id as string] ? 'text-danger' : ''
+                                            }`}></i></button>
                                     </div>}
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p>No Cards</p>
+                        <p>
+                            <div className="loader">
+                                <div className="circle">
+                                    <div className="dot"></div>
+                                    <div className="outline"></div>
+                                </div>
+                                <div className="circle">
+                                    <div className="dot"></div>
+                                    <div className="outline"></div>
+                                </div>
+                                <div className="circle">
+                                    <div className="dot"></div>
+                                    <div className="outline"></div>
+                                </div>
+                                <div className="circle">
+                                    <div className="dot"></div>
+                                    <div className="outline"></div>
+                                </div>
+                            </div></p>
                     )}
                 </div>
             </div>
