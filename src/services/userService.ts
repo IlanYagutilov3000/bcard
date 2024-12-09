@@ -46,9 +46,9 @@ export function getUserByIdTwo(userId: string) {
 }
 
 //edit user
-export function editUser(user: UpdatedUser) {
+export async function editUser(user: UpdatedUser) {
     const decoded: any = jwtDecode<JwtPayload>(token as string)
-    return axios.put(`${api}/${decoded._id}`, user, { headers: { "x-auth-token": token } })
+    return await axios.put(`${api}/${decoded._id}`, user, { headers: { "x-auth-token": token } })
 }
 
 /* export function editUser(user: UpdatedUser) {

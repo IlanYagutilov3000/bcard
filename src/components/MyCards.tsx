@@ -1,6 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { getMyCards } from "../services/cardService";
+import { deleteCard, getMyCards } from "../services/cardService";
 import Card from "../interfaces/Card";
+import CreateCardModal from "./CreateCardModal";
+import { useUserContext } from "../context/userContext";
+import useToken from "../customHooks/useToken";
 
 interface MyCardsProps {
 
@@ -8,18 +11,43 @@ interface MyCardsProps {
 
 const MyCards: FunctionComponent<MyCardsProps> = () => {
     const [myCards, setMyCards] = useState<Card[]>([])
+    const [cardChanged, setCardChanged] = useState<boolean>(false)
+    const [openUpadCardteModal, setOpenUpadCardteModal] = useState<boolean>(false);
+    const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
+    const { afterDecode } = useToken();
+
+    let refresh = () => {
+        setCardChanged(!cardChanged)
+    }
+
     useEffect(() => {
         getMyCards().then((res) => {
-            setMyCards(myCards)
+            setMyCards(res.data)
         }).catch((err) => {
             console.log(err);
         })
-    }, [])
+    }, [cardChanged])
+
+    useEffect(() => {
+        if (afterDecode) {
+            setAuth(afterDecode);
+            setIsLogedIn(true);
+            setIsAdmin(afterDecode.isAdmin);
+            setIsBusiness(afterDecode.isBusiness);
+        } else {
+            setIsLogedIn(false);
+            setIsAdmin(false);
+            setIsBusiness(false)
+        }
+    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
     
     return (
         <>
             <h3 className="display-4">My Cards</h3>
             <p>Here you can find all your cards</p>
+            <button onClick={() => {
+                setOpenUpadCardteModal(true)
+            }} >Add Card</button>
             <div className="container">
                 <div className="row mt-3 gap-2 d-flex justify-content-center">
                     {myCards.length ? (
@@ -34,8 +62,8 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                                     <span>{card.subtitle}</span>
                                 </div>
                                 <img
-                                    src={card.image.url}
-                                    alt={card.image.alt}
+                                    src={card?.image?.url}
+                                    alt={card?.image?.alt}
                                     title={card.title}
                                 />
                                 <div className="card-body">
@@ -46,9 +74,16 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                                 </div>
                                 <div className="d-flex p-0 justify-content-between">
                                     <div>
-                                        {/* <button className="btn" onClick={() => {
-                                            handleUnlikeCard(card._id as string)
-                                        }} ><i className="fa-solid fa-heart"></i></button> */}
+                                        <button className="btn" onClick={() => {
+                                            // make this into a modal
+                                            if (window.confirm("are you sure")) {
+                                                deleteCard(card._id as string, card.bizNumber as number).then(() => {
+                                                    setCardChanged(!cardChanged)
+                                                }).catch((err) => {
+                                                    console.log(err);
+                                                })
+                                            }
+                                        }} ><i className="fa-solid fa-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -58,6 +93,8 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                     )}
                 </div>
             </div>
+        
+            <CreateCardModal show={openUpadCardteModal} onHide={() => setOpenUpadCardteModal(false)} refresh={refresh} />
 
         </>
     );

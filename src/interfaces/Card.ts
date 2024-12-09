@@ -24,7 +24,7 @@ export default interface Card {
     phone: string,
     email: string,
     web?: string,
-    image: Image,
+    image?: Image,
     address: Address,
     bizNumber?: number,
     likes?: string[],

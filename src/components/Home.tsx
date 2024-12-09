@@ -66,8 +66,8 @@ const Home: FunctionComponent<HomeProps> = () => {
                                     <span>{card.subtitle}</span>
                                 </div>
                                 <img
-                                    src={card.image.url}
-                                    alt={card.image.alt}
+                                    src={card?.image?.url}
+                                    alt={card?.image?.alt}
                                     title={card.title}
                                 />
                                 <div className="card-body">
@@ -102,7 +102,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                             </div>
                         ))
                     ) : (
-                        <p>
+                        <span>
                             <div className="loader">
                                 <div className="circle">
                                     <div className="dot"></div>
@@ -120,7 +120,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                                     <div className="dot"></div>
                                     <div className="outline"></div>
                                 </div>
-                            </div></p>
+                            </div></span>
                     )}
                 </div>
             </div>

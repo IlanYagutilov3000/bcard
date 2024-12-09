@@ -1,88 +1,45 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { User } from "../interfaces/User";
-import { editUser, getUserById, getUserByIdTwo } from "../services/userService";
-import { NavigateFunction, useNavigate } from "react-router-dom";
 import { FormikValues, useFormik } from "formik";
+import { FunctionComponent } from "react";
+import Card from "../interfaces/Card";
 import * as yup from "yup";
+import { createNewCard } from "../services/cardService";
 import { errorMsg, successMsg } from "../services/feedback";
-import { useUserContext } from "../context/userContext";
-import { UpdatedUser } from "../interfaces/UpdatedUser";
 
-
-
-interface UpdateUserProps {
+interface CreateCardProps {
     onHide: Function;
     refresh: Function;
-    userId: string
 }
 
-const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userId }) => {
-    const navigate: NavigateFunction = useNavigate()
-    const { auth } = useUserContext()
-    let [userDetails, setUserDetails] = useState<UpdatedUser>({
-        name: {
-            first: "",
-            middle: "",
-            last: ""
-        },
-        phone: "",
-        image: {
-            url: "",
-            alt: "",
-        },
-        address: {
-            state: "",
-            country: "",
-            city: "",
-            street: "",
-            houseNumber: 0,
-            zip: 0,
-        },
-    })
-    useEffect(() => {
-        getUserByIdTwo(userId).then((res) => setUserDetails(res.data)).catch((err) => {
-            console.log(err);
-        })
-    }, []);
-
-    const formik: FormikValues = useFormik<UpdatedUser>({
+const CreateCard: FunctionComponent<CreateCardProps> = ({onHide, refresh}) => {
+    const formik: FormikValues = useFormik<Card>({
         initialValues: {
-            name: {
-                first: userDetails.name.first,
-                middle: userDetails.name.middle,
-                last: userDetails.name.last
-            },
-            phone: userDetails.phone,
+            title: "",
+            subtitle: "",
+            description: "",
+            phone: "",
+            email: "",
+            web: "",
             image: {
-                url: userDetails?.image?.url || "",
-                alt: userDetails?.image?.alt || "",
+                url: "",
+                alt: ""
             },
             address: {
-                state: userDetails.address.state,
-                country: userDetails.address.country,
-                city: userDetails.address.city,
-                street: userDetails.address.street,
-                houseNumber: userDetails.address.houseNumber,
-                zip: userDetails.address.zip
-            },
+                state: "",
+                country: "",
+                city: "",
+                street: "",
+                houseNumber: 0,
+                zip: 0
+            }
         },
-        enableReinitialize: true,
+        /* will need to add diffrnernt error msg to every incorect input field you do that with , "and write the error message" */
         validationSchema: yup.object({
-            name: yup.object({
-                first: yup.string().required("name is a required field").min(2),
-                middle: yup.string(),
-                last: yup.string().required("last name is a required field"),
-            }),
+            title: yup.string().required(),
+            subtitle: yup.string().required(),
+            description: yup.string().required(),
             phone: yup.string().required().matches(/^05[0-9]{1}-?[0-9]{7}$/, "Invalid phone format"),
-            /*  email: yup.string().required().email(),
-             password: yup
-                 .string()
-                 .required()
-                 .min(8)
-                 .matches(
-                     /^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){4})(?=.*[!@%$#^&*\-_+()]).{8,}$/,
-                     "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, at least 4 numbers and at least one of the following characters !@#$%^&*-"
-                 ), */
+            email: yup.string().required().email(),
+            web: yup.string(),
             image: yup.object({
                 url: yup.string(),
                 alt: yup.string(),
@@ -95,53 +52,49 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                 houseNumber: yup.number().required("hosue number is a required field"),
                 zip: yup.number(),
             }),
-            /* isBusiness: yup.boolean() */
+
         }),
         onSubmit: (values) => {
-            
-            editUser(values).then((res) => {
-                console.log(values);
-                console.log(res);
-                successMsg("User Was Updated Successfully");
-                onHide();
-                refresh();
+            createNewCard(values).then((res) => {
+                onHide()
+                refresh()
+                successMsg("You Created a Card successfully")
             }).catch((err) => {
-                errorMsg("Opss.. sometihng went wrong")
-                console.log(err)
-
+                console.log(err);
+                errorMsg("opsss... Something Went Wrong")
             })
         }
     })
     return (
         <>
-            <h3 className="text-center display-5 my-3">REGISTER</h3>
+            <h3 className="text-center display-5 my-3">Create New Card</h3>
             <div className="container forMediaQuary w-50">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="firstname" placeholder="firstname"
-                                    name="name.first" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.first} />
-                                <label htmlFor="firstname">First Name*</label>
-                                {formik.touched.name?.first && formik.errors.name?.first && <p className="text-danger fs-6" >{formik.errors.name.first}</p>}
+                                <input type="text" className="form-control" id="title" placeholder="title"
+                                    name="title" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.title} />
+                                <label htmlFor="title">Titile*</label>
+                                {formik.touched.title && formik.errors.title && <p className="text-danger fs-6" >{formik.errors.title}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="middlename" placeholder="middlename"
-                                    name="name.middle" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.middle} />
-                                <label htmlFor="middlename">Middle Name</label>
-                                {formik.touched.name?.middle && formik.errors.name?.middle && <p className="text-danger fs-6" >{formik.errors.name?.middle}</p>}
+                                <input type="text" className="form-control" id="subtitle" placeholder="subtitle"
+                                    name="subtitle" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.subtitle} />
+                                <label htmlFor="subtitle">Subtitle*</label>
+                                {formik.touched.subtitle && formik.errors.subtitle && <p className="text-danger fs-6" >{formik.errors.subtitle}</p>}
                             </div>
                         </div>
                     </div>
                     <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="lastname" placeholder="lastname"
-                                    name="name.last" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.last} />
-                                <label htmlFor="lastname">Last Name*</label>
-                                {formik.touched.name?.last && formik.errors.name?.last && <p className="text-danger fs-6" >{formik.errors.name?.last}</p>}
+                                <input type="text" className="form-control" id="description" placeholder="description"
+                                    name="description" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} />
+                                <label htmlFor="description">Description*</label>
+                                {formik.touched.description && formik.errors.description && <p className="text-danger fs-6" >{formik.errors.description}</p>}
                             </div>
                         </div>
                         <div className="col-md">
@@ -153,7 +106,7 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                             </div>
                         </div>
                     </div>
-                    {/* <div className="row g-2 mb-3">
+                    <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="email" className="form-control" id="email" placeholder="Email"
@@ -164,12 +117,12 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="password" className="form-control" id="password" placeholder="password" name="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                                <label htmlFor="passwrod">Password*</label>
-                                {formik.touched.password && formik.errors.password && <p className="text-danger fs-6" >{formik.errors.password}</p>}
+                                <input type="text" className="form-control" id="web" placeholder="web" name="web" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.web} />
+                                <label htmlFor="passwrod">Web</label>
+                                {formik.touched.web && formik.errors.web && <p className="text-danger fs-6" >{formik.errors.web}</p>}
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
@@ -237,21 +190,17 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                                 {formik.touched.address?.zip && formik.errors.address?.zip && <p className="text-danger fs-6" >{formik.errors.address?.zip}</p>}
                             </div>
                         </div>
-                        {/*  <div>
-                            <input type="checkbox" name="isBusiness" id="isBusiness" checked={formik.values.isBusiness} onChange={formik.handleChange} />
-                            <label htmlFor="isBusiness" className="ms-2">Signup as business</label>
-                        </div> */}
                         <button type="submit" disabled={!formik.dirty || !formik.isValid} className="btn btn-primary" >submit</button>
                     </div>
                 </form>
                 <div className="row g-2">
-                    {/* <div className="col-md">
-                        <button className="btn btn-outline-danger w-100" onClick={() => navigate("/")}>CANCEL</button>
-                    </div> */}
+                    <div className="col-md mb-5">
+                        <button className="btn btn-outline-primary w-100" onClick={() => formik.resetForm()} type="reset" ><i className="fa-solid fa-arrows-rotate"></i></button>
+                    </div>
                 </div>
             </div>
         </>
     );
 }
 
-export default UpdateUser;
+export default CreateCard;

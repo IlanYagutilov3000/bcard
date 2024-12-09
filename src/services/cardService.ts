@@ -27,7 +27,7 @@ export function getMyCards() {
 
 //Craete new card 
 export function createNewCard(newCard: Card) {
-    axios.post(api, newCard, {
+    return axios.post(api, newCard, {
         headers: {
             "x-auth-token": token
         }

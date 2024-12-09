@@ -48,8 +48,8 @@ const FavCards: FunctionComponent<FavCardsProps> = () => {
                                     <span>{card.subtitle}</span>
                                 </div>
                                 <img
-                                    src={card.image.url}
-                                    alt={card.image.alt}
+                                    src={card?.image?.url}
+                                    alt={card?.image?.alt}
                                     title={card.title}
                                 />
                                 <div className="card-body">

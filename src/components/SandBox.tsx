@@ -59,7 +59,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             }} ><i className="fa-solid fa-trash text-danger"></i></button></td>
                         </tr>))}
                     </tbody>
-                </table>) : (<p>
+                </table>) : (<span>
                     <div className="loader">
                         <div className="circle">
                             <div className="dot"></div>
@@ -77,7 +77,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             <div className="dot"></div>
                             <div className="outline"></div>
                         </div>
-                    </div></p>)}
+                    </div></span>)}
             </div>
 
             <UpdateUserModal show={openUpdateUser} onHide={() => setOpenUpdateUser(false)} refresh={refresh} userId={userId} />
