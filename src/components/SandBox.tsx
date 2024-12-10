@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { User } from "../interfaces/User";
-import { deleteUser, getAllUsers } from "../services/userService";
+import { deleteUser, editUserStatus, getAllUsers } from "../services/userService";
 import DeleteUserModal from "./DeleteUserModal";
 import UpdateUserModal from "./UpdateUserModal";
+import { errorMsg, successMsg } from "../services/feedback";
 
 interface SandBoxProps {
 
@@ -14,6 +15,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
     const [userId, setUserId] = useState<string>("");
     const [openDeleteUser, setOpenDeleteUser] = useState<boolean>(false);
     const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
+    const [statusChange, setStatusChange] = useState<boolean>(true)
     useEffect(() => {
         getAllUsers().then((res) => {
             setUsers(res.data)
@@ -38,8 +40,8 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             <th className="col-2">Email</th>
                             <th className="col-2">is Business</th>
                             <th className="col-2">Country</th>
-                            <th className="col-2">edit</th>
-                            <th className="col-2">delete</th>
+                            <th className="col-2">Edit</th>
+                            <th className="col-2">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +49,20 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             <td>{user.name.first}</td>
                             <td>{user.name.last}</td>
                             <td>{user.email}</td>
-                            {user.isBusiness ? (<td><i className="fa-solid fa-check"></i></td>) : (<td><i className="fa-solid fa-x"></i></td>)}
+                            {user.isBusiness ? (<td><i className="fa-solid fa-check"></i></td>) : (<td>{/* <i className="fa-solid fa-x"></i> */}<div className="form-check">
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={() => {
+                                    editUserStatus(user._id as string, statusChange as boolean).then((res) => {
+                                        successMsg("User Changed To Business")
+                                        setUserChanged(!userChanged)
+                                    }).catch((err) => {
+                                        console.log(err);
+                                        errorMsg("User Didn't Change To Business")
+                                    })
+                                }} />
+                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                        Not Bizz
+                                    </label>
+                            </div></td>)}
                             <td>{user.address.country}</td>
                             <td><button className="btn" onClick={() => {
                                 setOpenUpdateUser(true)

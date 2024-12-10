@@ -1,10 +1,11 @@
 import { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 /* import { SiteTheme } from "../App"; */
-import { getUserById } from "../services/userService";
+import { getUserById, getUserByIdTwo } from "../services/userService";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
+import { useSearchContext } from "../context/SeachContext";
 
 interface NavbarProps {
     darkMode: boolean;
@@ -17,21 +18,20 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
     const { afterDecode } = useToken();
     const navigate = useNavigate()
-
+    const { search, setSearch } = useSearchContext()
     const [user, setUser] = useState<User | null>(null)
+
     useEffect(() => {
         if (afterDecode && localStorage.token) {
             getUserById().then((res) => {
-                setIsLogedIn(true)
-                setIsBusiness(res.data.isBusiness)
                 setUser(res.data)
             }).catch((err) => {
                 console.log(err)
 
             })
         }
-
     }, []);
+
     useEffect(() => {
         if (afterDecode) {
             setAuth(afterDecode);
@@ -51,7 +51,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
         setIsAdmin(false);
         setIsBusiness(false)
         setIsLogedIn(false);
-        setUser(null)
+        setAuth(null)
         localStorage.removeItem("token");
     };
 
@@ -92,8 +92,8 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                         </div>
 
                         <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit" >Search</button>
+                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearch(e.target.value)} />
+
                         </form>
                         {isLogedIn ? (<><div className="imgSize">
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />

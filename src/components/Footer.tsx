@@ -30,7 +30,7 @@ const Footer: FunctionComponent<FooterProps> = () => {
     return (
         <>
             <footer className="bg-dark-subtle">
-                <div className="d-flex justify-content-around">
+                <div className="d-flex justify-content-around ">
                     <div className="d-flex flex-column text-center">
                         <p className="mb-0"><i className="fa-solid fa-circle-exclamation"></i></p>
                         <button className="btn btn-link mx-0 p-0" onClick={() => {

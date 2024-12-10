@@ -43,7 +43,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
             setIsBusiness(false)
         }
     }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
-    
+
     return (
         <>
             <h3 className="display-4">My Cards</h3>
@@ -61,8 +61,8 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                                 style={{ width: "18rem" }}
                             >
                                 <div className="card-header">
-                                    <span className="card-title">{card.title}</span>
-                                    <span>{card.subtitle}</span>
+                                    <h5 className="card-title">{card.title}</h5>
+
                                 </div>
                                 <img
                                     src={card?.image?.url}
@@ -70,6 +70,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                                     title={card.title}
                                 />
                                 <div className="card-body">
+                                    <span>{card.subtitle}</span>
                                     <p className="card-text m-0"><span className="fw-bold">Phone:</span> {card.phone}</p>
                                     <p className="card-text m-0"><span className="fw-bold">Address: </span>{card.address.city}</p>
                                     <p className="card-text m-0"><span className="fw-bold">Description: </span>{card.description}</p>
@@ -101,9 +102,9 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                     )}
                 </div>
             </div>
-        
+
             <CreateCardModal show={openUpadCardteModal} onHide={() => setOpenUpadCardteModal(false)} refresh={refresh} />
-            
+
             <UpdateCardModal show={openEditCard} onHide={() => setOpenEditCard(false)} refresh={refresh} cardId={cardId} />
 
         </>

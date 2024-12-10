@@ -1,22 +1,36 @@
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 /* media for making the mobile much easier on the user */
 @media(max-width: 440px) {
-    .forMediaQuary {
-        width: 100% !important;
-    }
+  .forMediaQuary {
+    width: 100% !important;
+  }
 }
+
+body {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 4.2rem;
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
 
 .imgSize img {
-    width: 40px;
-    border-radius: 20px;
+  width: 40px;
+  border-radius: 20px;
 }
 
-/* From Uiverse.io by Li-Deheng */ 
+/* From Uiverse.io by Li-Deheng */
 .loader {
   display: flex;
   justify-content: center;

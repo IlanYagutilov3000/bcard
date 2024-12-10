@@ -40,15 +40,6 @@ export function updateCard(cardId: string, updateCard: Card) {
 }
 
 //like unlike a card
-/* export function likeAndUnlike(cardId: string) {
-    axios.patch(`${api}/${cardId}`, {
-        headers: {
-            "x-auth-token": token
-        }
-    })
-} */
-
-//like unlike a card
 export async function likeAndUnlike(cardId: string, userId: string) {
     try {
         if (!token) throw new Error("No token found");

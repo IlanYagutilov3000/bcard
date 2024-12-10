@@ -14,6 +14,7 @@ import Navbar from './components/Navbar';
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './context/userContext';
 import SandBox from './components/SandBox';
+import { SearchProvider } from './context/SeachContext';
 
 const themes = {
   light: {
@@ -38,22 +39,24 @@ function App() {
     }}>
       <UserProvider>
         <ToastContainer />
-        <Router>
-          <SiteTheme.Provider value={darkMode ? themes.dark : themes.light}>
-            <Navbar setDarkMode={setDarkMode} darkMode={darkMode} />
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/my-cards' element={<MyCards />} />
-              <Route path='/fav-cards' element={<FavCards />} />
-              <Route path='/sandbox' element={<SandBox />} />
-              <Route path='*' element={<PageNotFound />} />
-            </Routes>
-          </SiteTheme.Provider>
-          <Footer />
-        </Router>
+        <SearchProvider>
+          <Router>
+            <SiteTheme.Provider value={darkMode ? themes.dark : themes.light}>
+              <Navbar setDarkMode={setDarkMode} darkMode={darkMode} />
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/my-cards' element={<MyCards />} />
+                <Route path='/fav-cards' element={<FavCards />} />
+                <Route path='/sandbox' element={<SandBox />} />
+                <Route path='*' element={<PageNotFound />} />
+              </Routes>
+            </SiteTheme.Provider>
+            <Footer />
+          </Router>
+        </SearchProvider>
       </UserProvider>
     </div>
   );

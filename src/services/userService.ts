@@ -30,10 +30,6 @@ export function getUserById() {
         return Promise.reject("No token found");
     }
     const decoded: any = jwtDecode<JwtPayload>(token)
-    /* console.log(decoded._id);
-    console.log(token);
-    console.log(decoded);
-    console.log(`${api}/${decoded._id}`); */
     return axios.get(`${api}/${decoded._id}`, {
         headers: { "x-auth-token": token }
     })
@@ -49,7 +45,12 @@ export async function editUser(userId: string, user: UpdatedUser) {
     return await axios.put(`${api}/${userId}`, user, { headers: { "x-auth-token": token } })
 }
 
+//patch user status
+export function editUserStatus(userId: string, newStatus: boolean){
+    return axios.patch(`${api}/${userId}`, newStatus, { headers: { "x-auth-token": token } })
+}
+
 //delete user
-export function deleteUser(id: string) {
-    return axios.delete(`${api}/${id}`, { headers: { "x-auth-token": token } })
+export function deleteUser(userId: string) {
+    return axios.delete(`${api}/${userId}`, { headers: { "x-auth-token": token } })
 }
