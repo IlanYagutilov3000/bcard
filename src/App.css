@@ -9,21 +9,39 @@
   .forMediaQuary {
     width: 100% !important;
   }
+
+  /* .tableScroll {
+    overflow: auto !important;
+  } */
 }
 
-body {
-  position: relative;
+/* to fix the footer and weird white space*/
+.App {
   min-height: 100vh;
-  padding-bottom: 4.2rem;
 }
 
+/* to fix the footer */
 footer {
-  position: absolute;
-  right: 0;
+  position: fixed;
   left: 0;
   bottom: 0;
+  right: 0;
 }
 
+
+/* to fix the footer */
+.appMargin {
+  margin-bottom: 50px !important;
+}
+
+.card img {
+  height: 262px;
+}
+
+.card {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
 
 .imgSize img {
   width: 40px;

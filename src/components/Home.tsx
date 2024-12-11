@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useRef, useState } from "react";
 import Card from "../interfaces/Card";
 import { deleteCard, getAllCards, likeAndUnlike, /* likeAndUnlike */ } from "../services/cardService";
 import { getUserById } from "../services/userService";
@@ -10,6 +10,7 @@ import { successMsg } from "../services/feedback";
 import DeleteCardModal from "./DeleteCardModal";
 import UpdateCardModal from "./UpdateCardModal";
 import { useSearchContext } from "../context/SeachContext";
+import { SiteTheme } from "../App";
 
 interface HomeProps {
 
@@ -27,6 +28,7 @@ const Home: FunctionComponent<HomeProps> = () => {
     const [cardId, setCardId] = useState<string>("")
     const [bizNumber, setBizzNumber] = useState<number>(0)
     const { search } = useSearchContext()
+    const { color, background } = useContext(SiteTheme);
 
 
     useEffect(() => {
@@ -67,13 +69,13 @@ const Home: FunctionComponent<HomeProps> = () => {
         <>
             <h1 className="display-1">Cards Page</h1>
             <p>Here you can find business cards from all categories</p>
-            <div className="container">
-                <div className="row mt-3 gap-2 d-flex justify-content-center flex-wrap">
+            <div className="container appMargin">
+                <div className="row mt-3 gap-2 d-flex justify-content-center flex-wrap" >
                     {filteredCards.length ? (
                         filteredCards.map((card) => (
-                            <div className="card col-md-4" key={card._id} style={{ width: "18rem" }}>
-                                <div className="card-header">
-                                    <h5 className="card-title">{card.title}</h5>
+                            <div className="card col-md-4 shadow bg-tertiary rounded" key={card._id} style={{ width: "18rem", backgroundColor: background, color: color }}>
+                                <div>
+                                    <h5 className="card-title text-center">{card.title}</h5>
                                 </div>
                                 <img src={card?.image?.url} alt={card?.image?.alt} title={card.title} />
                                 <div className="card-body">
@@ -81,7 +83,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                                     <p className="card-text m-0"><span className="fw-bold">Phone:</span> {card.phone}</p>
                                     <p className="card-text m-0"><span className="fw-bold">Address: </span>{card.address.city}</p>
                                     <p className="card-text m-0"><span className="fw-bold">Description: </span>{card.description}</p>
-                                    <p className="card-text text-success m-0"><span className="fw-bold">Card Number: </span>{card.bizNumber}</p>
+                                    <p className="card-text m-0"><span className="fw-bold">Card Number: </span>{card.bizNumber}</p>
                                 </div>
                                 <div className="d-flex p-0 justify-content-between">
                                     {isAdmin && (
@@ -90,46 +92,44 @@ const Home: FunctionComponent<HomeProps> = () => {
                                                 setOpenDeleteCard(true);
                                                 setCardId(card._id as string);
                                                 setBizzNumber(card.bizNumber as number);
-                                            }}><i className="fa-solid fa-trash"></i></button>
+                                            }}><i className="fa-solid fa-trash text-danger"></i></button>
                                             <button className="btn" onClick={() => {
                                                 setOpenEditCard(true);
                                                 setCardId(card._id as string);
-                                            }}><i className="fa-solid fa-pen"></i></button>
+                                            }}><i className="fa-solid fa-pen text-success"></i></button>
                                         </div>
                                     )}
-                                    <div><button className="btn"><i className="fa-solid fa-phone"></i></button></div>
-                                    {isLogedIn && (
-                                        <div>
+                                    <div>
+                                        <button className="btn"><i className="fa-solid fa-phone"></i></button>
+                                        {isLogedIn && (
                                             <button className="btn" onClick={() => {
                                                 handleLikeToggle(card._id as string);
                                                 likeAndUnlike(card._id as string, auth?._id as string);
                                             }}><i className={`fa-solid fa-heart ${likedCards[card._id as string] ? 'text-danger' : ''}`}></i></button>
-                                        </div>
-                                    )}
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <span>
-                            <div className="loader">
-                                <div className="circle">
-                                    <div className="dot"></div>
-                                    <div className="outline"></div>
-                                </div>
-                                <div className="circle">
-                                    <div className="dot"></div>
-                                    <div className="outline"></div>
-                                </div>
-                                <div className="circle">
-                                    <div className="dot"></div>
-                                    <div className="outline"></div>
-                                </div>
-                                <div className="circle">
-                                    <div className="dot"></div>
-                                    <div className="outline"></div>
-                                </div>
+                        <div className="loader">
+                            <div className="circle">
+                                <div className="dot"></div>
+                                <div className="outline"></div>
                             </div>
-                        </span>
+                            <div className="circle">
+                                <div className="dot"></div>
+                                <div className="outline"></div>
+                            </div>
+                            <div className="circle">
+                                <div className="dot"></div>
+                                <div className="outline"></div>
+                            </div>
+                            <div className="circle">
+                                <div className="dot"></div>
+                                <div className="outline"></div>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

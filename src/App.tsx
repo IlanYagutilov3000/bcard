@@ -33,10 +33,7 @@ function App() {
   /* const theme = useContext(SiteTheme) */
   const [darkMode, setDarkMode] = useState<boolean>(false)
   return (
-    <div className="App" style={{
-      color: darkMode ? themes.dark.color : themes.light.color,
-      backgroundColor: darkMode ? themes.dark.background : themes.light.background
-    }}>
+    <div className="App" style={{ backgroundColor: darkMode ? themes.dark['background'] : themes.light['background'], color: darkMode ? themes.dark['color'] : themes.light['color'] }}>
       <UserProvider>
         <ToastContainer />
         <SearchProvider>
@@ -53,8 +50,8 @@ function App() {
                 <Route path='/sandbox' element={<SandBox />} />
                 <Route path='*' element={<PageNotFound />} />
               </Routes>
+              <Footer/>
             </SiteTheme.Provider>
-            <Footer />
           </Router>
         </SearchProvider>
       </UserProvider>

@@ -30,7 +30,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
 
     return (
         <>
-            <div className="container">
+            <div className="container appMargin">
                 <h5 className="text-center">All Users</h5>
                 {users.length ? (<table className="table table-bordered border-primary">
                     <thead>
@@ -59,9 +59,9 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                                         errorMsg("User Didn't Change To Business")
                                     })
                                 }} />
-                                    <label className="form-check-label" htmlFor="flexCheckDefault">
-                                        Not Bizz
-                                    </label>
+                                <label className="form-check-label" htmlFor="flexCheckDefault">
+                                    Not Bizz
+                                </label>
                             </div></td>)}
                             <td>{user.address.country}</td>
                             <td><button className="btn" onClick={() => {
@@ -74,25 +74,24 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             }} ><i className="fa-solid fa-trash text-danger"></i></button></td>
                         </tr>))}
                     </tbody>
-                </table>) : (<span>
-                    <div className="loader">
-                        <div className="circle">
-                            <div className="dot"></div>
-                            <div className="outline"></div>
-                        </div>
-                        <div className="circle">
-                            <div className="dot"></div>
-                            <div className="outline"></div>
-                        </div>
-                        <div className="circle">
-                            <div className="dot"></div>
-                            <div className="outline"></div>
-                        </div>
-                        <div className="circle">
-                            <div className="dot"></div>
-                            <div className="outline"></div>
-                        </div>
-                    </div></span>)}
+                </table>) : (<div className="loader">
+                    <div className="circle">
+                        <div className="dot"></div>
+                        <div className="outline"></div>
+                    </div>
+                    <div className="circle">
+                        <div className="dot"></div>
+                        <div className="outline"></div>
+                    </div>
+                    <div className="circle">
+                        <div className="dot"></div>
+                        <div className="outline"></div>
+                    </div>
+                    <div className="circle">
+                        <div className="dot"></div>
+                        <div className="outline"></div>
+                    </div>
+                </div>)}
             </div>
 
             <UpdateUserModal show={openUpdateUser} onHide={() => setOpenUpdateUser(false)} refresh={refresh} userId={userId} />

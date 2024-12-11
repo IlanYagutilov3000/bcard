@@ -6,6 +6,7 @@ import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
 import { useSearchContext } from "../context/SeachContext";
+import { SiteTheme } from "../App";
 
 interface NavbarProps {
     darkMode: boolean;
@@ -14,7 +15,8 @@ interface NavbarProps {
 
 
 const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
-    /* const theme = useContext(SiteTheme) */
+    /* const theme = useContext(SiteTheme); */
+    const { color, background } = useContext(SiteTheme);
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
     const { afterDecode } = useToken();
     const navigate = useNavigate()
@@ -57,25 +59,25 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary" >
-                <div className="container-fluid" >
-                    <NavLink className="navbar-brand" to={'/'} >BCard</NavLink >
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
-                        <span className="navbar-toggler-icon" ></span>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary pb-0" style={{ backgroundColor: background, color: color }} >
+                <div className="container-fluid" style={{ backgroundColor: background, color: color }}  >
+                    <NavLink className="navbar-brand" to={'/'} style={{ color: color }} >BCard</NavLink >
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style={{ backgroundColor: background, color: color }} >
+                        <span className="navbar-toggler-icon" style={{ backgroundColor: background, color: color }} ></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent" >
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item" >
-                                <NavLink className="nav-link active" aria-current="page" to={'/about'} >About</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/about'} style={{ color: color }} >About</NavLink>
                             </li>
                             {isLogedIn && <li className="nav-item" >
-                                <NavLink className="nav-link active" aria-current="page" to={'/fav-cards'} >Fav Cards</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/fav-cards'} style={{ color: color }} >Fav Cards</NavLink>
                             </li>}
                             {isBusiness && <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to={'/my-cards'} >My Cards</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/my-cards'} style={{ color: color }} >My Cards</NavLink>
                             </li>}
                             {isAdmin && <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to={'/sandbox'} >SandBox</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to={'/sandbox'} style={{ color: color }}>SandBox</NavLink>
                             </li>}
                         </ul>
                         <div className="form-check form-switch" >
@@ -84,11 +86,8 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                                 type="checkbox"
                                 role="switch"
                                 id="flexSwitchCheckDefault"
-                                onChange={() => setDarkMode(!darkMode)}
+                                onChange={() => setDarkMode(!darkMode )}
                             />
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-                                Dark mode
-                            </label>
                         </div>
 
                         <form className="d-flex" role="search">
@@ -99,17 +98,17 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
                             <button onClick={() => {
                                 handleLogout()
-                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right"></i></button>
+                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" style={{ color: color }}></i></button>
 
                         </div>
                         </>)
                             : (<>
                                 <button onClick={() => {
                                     navigate('/signup')
-                                }} className="btn btn-primary mx-1" /* style={{ color: theme.color, backgroundColor: theme.background }} */>Signup</button>
+                                }} className="btn btn-primary mx-1" /* style={{ color: theme.color, backgroundColor: theme.background }} */ style={{ color: color }}>Signup</button>
                                 <button onClick={() => {
                                     navigate('/login')
-                                }} className="btn btn-warning" /* style={{ color: theme.color, backgroundColor: theme.background }} */>Login</button>
+                                }} className="btn btn-warning" /* style={{ color: theme.color, backgroundColor: theme.background }} */ style={{ color: color }}>Login</button>
                             </>)}
 
                     </div>
