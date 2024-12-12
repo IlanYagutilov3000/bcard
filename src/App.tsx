@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -32,7 +32,14 @@ export const SiteTheme = createContext(themes.light)
 
 function App() {
   /* const theme = useContext(SiteTheme) */
-  const [darkMode, setDarkMode] = useState<boolean>(false)
+  /* const [darkMode, setDarkMode] = useState<boolean>(false); */
+  const savedTheme = localStorage.getItem("theme");
+  const [darkMode, setDarkMode] = useState<boolean>(savedTheme === "dark");
+
+  useEffect(() => {
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
   return (
     <div className="App" style={{ backgroundColor: darkMode ? themes.dark['background'] : themes.light['background'], color: darkMode ? themes.dark['color'] : themes.light['color'] }}>
       <UserProvider>

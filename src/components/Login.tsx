@@ -1,5 +1,5 @@
 import { FormikValues, useFormik } from "formik";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { userLogin } from "../services/userService";
@@ -7,6 +7,7 @@ import { errorMsg, successMsg } from "../services/feedback";
 import { jwtDecode } from "jwt-decode";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
+import { SiteTheme } from "../App";
 
 
 
@@ -17,9 +18,8 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = () => {
     const { afterDecode } = useToken();
     const { setAuth, setIsBusiness, setIsAdmin, isLogedIn, setIsLogedIn } = useUserContext()
-    /* const [tokenHolder, setTokenHolder] = useState<any>(); */
     const navigate = useNavigate()
-    /* needs to change it to User intreface */
+    const { color, background } = useContext(SiteTheme);
 
     useEffect(() => {
         if (afterDecode && localStorage.token) {
@@ -61,16 +61,16 @@ const Login: FunctionComponent<LoginProps> = () => {
     })
     return (
         <>
-            <h3 className="text-center my-3">LOGIN</h3>
+            <h3 className="text-center my-3" >LOGIN</h3>
             <div className="container w-25 forMediaQuary">
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} >
                     <div className="form-floating mb-3">
-                        <input type="email" className="form-control" id="floatingEmail" placeholder="email" onChange={formik.handleChange} name="email" onBlur={formik.handleBlur} value={formik.values.email} />
+                        <input type="email" className="form-control" id="floatingEmail" placeholder="email" onChange={formik.handleChange} name="email" onBlur={formik.handleBlur} value={formik.values.email} style={{ backgroundColor: background, color: color }} />
                         <label htmlFor="floatingEmail">Email*</label>
                         {formik.touched.email && formik.errors.email && <p className="text-danger">{formik.errors.email}</p>}
                     </div>
-                    <div className="form-floating">
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="Password" name="password" onBlur={formik.handleBlur} value={formik.values.password} onChange={formik.handleChange} />
+                    <div className="form-floating" >
+                        <input type="password" className="form-control" id="floatingPassword" placeholder="Password" name="password" onBlur={formik.handleBlur} value={formik.values.password} onChange={formik.handleChange} style={{ backgroundColor: background, color: color }} />
                         <label htmlFor="floatingPassword">Password*</label>
                         {formik.touched.password && formik.errors.password && <p className="text-danger">{formik.errors.password}</p>}
                     </div>

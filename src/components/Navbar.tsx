@@ -57,10 +57,14 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
         localStorage.removeItem("token");
     };
 
+    const toggleTheme = () => {
+        setDarkMode(!darkMode);
+    };
+
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary pb-0" style={{ backgroundColor: background, color: color }} >
-                <div className="container-fluid" style={{ backgroundColor: background, color: color }}  >
+            <nav className="navbar navbar-expand-lg bg-body-tertiary p-0" style={{ backgroundColor: background, color: color }}  >
+                <div className="container-fluid p-3" style={{ backgroundColor: background, color: color }}  >
                     <NavLink className="navbar-brand" to={'/'} style={{ color: color }} >BCard</NavLink >
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style={{ backgroundColor: background, color: color }} >
                         <span className="navbar-toggler-icon" style={{ backgroundColor: background, color: color }} ></span>
@@ -80,14 +84,14 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                                 <NavLink className="nav-link active" aria-current="page" to={'/sandbox'} style={{ color: color }}>SandBox</NavLink>
                             </li>}
                         </ul>
-                        <div className="form-check form-switch" >
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                role="switch"
-                                id="flexSwitchCheckDefault"
-                                onChange={() => setDarkMode(!darkMode )}
-                            />
+                        <div >
+                            <button
+                                className="btn"
+                                onClick={toggleTheme}
+                                style={{ color: color, backgroundColor: background }}
+                                title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
+                            ><i className={darkMode ? "fa-solid fa-moon" : "fa-solid fa-sun"}></i>
+                            </button>
                         </div>
 
                         <form className="d-flex" role="search">
@@ -98,17 +102,17 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
                             <button onClick={() => {
                                 handleLogout()
-                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" style={{ color: color }}></i></button>
+                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" /* style={{ color: color }} */></i></button>
 
                         </div>
                         </>)
                             : (<>
                                 <button onClick={() => {
                                     navigate('/signup')
-                                }} className="btn btn-primary mx-1" /* style={{ color: theme.color, backgroundColor: theme.background }} */ style={{ color: color }}>Signup</button>
+                                }} className="btn btn-primary mx-1" style={{ color: color }}>Signup</button>
                                 <button onClick={() => {
                                     navigate('/login')
-                                }} className="btn btn-warning" /* style={{ color: theme.color, backgroundColor: theme.background }} */ style={{ color: color }}>Login</button>
+                                }} className="btn btn-warning" style={{ color: color }}>Login</button>
                             </>)}
 
                     </div>

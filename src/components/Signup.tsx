@@ -1,18 +1,20 @@
 import { FormikValues, useFormik } from "formik";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { addNewUser } from "../services/userService";
 import { errorMsg, successMsg } from "../services/feedback";
 import { User } from "../interfaces/User";
+import { SiteTheme } from "../App";
 
 interface SignupProps {
 
 }
 
 const Signup: FunctionComponent<SignupProps> = () => {
-    const navigate = useNavigate()
-    /* needs to change it to User intreface */
+    const navigate = useNavigate();
+    const { color, background } = useContext(SiteTheme);
+
     const formik: FormikValues = useFormik<User>({
         initialValues: {
             name: {
@@ -81,14 +83,14 @@ const Signup: FunctionComponent<SignupProps> = () => {
     })
     return (
         <>
-            <h3 className="text-center display-5 my-3">REGISTER</h3>
-            <div className="container forMediaQuary w-50">
+            <h3 className="text-center display-5 my-3 appMargin">REGISTER</h3>
+            <div className="container forMediaQuary w-50" >
                 <form onSubmit={formik.handleSubmit}>
-                    <div className="row g-2 mb-3">
-                        <div className="col-md">
-                            <div className="form-floating">
+                    <div className="row g-2 mb-3" >
+                        <div className="col-md" >
+                            <div className="form-floating" >
                                 <input type="text" className="form-control" id="firstname" placeholder="firstname"
-                                    name="name.first" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.first} />
+                                    name="name.first" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.first} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="firstname">First Name*</label>
                                 {formik.touched.name?.first && formik.errors.name?.first && <p className="text-danger fs-6" >{formik.errors.name.first}</p>}
                             </div>
@@ -96,7 +98,7 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="middlename" placeholder="middlename"
-                                    name="name.middle" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.middle} />
+                                    name="name.middle" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.middle} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="middlename">Middle Name</label>
                                 {formik.touched.name?.middle && formik.errors.name?.middle && <p className="text-danger fs-6" >{formik.errors.name?.middle}</p>}
                             </div>
@@ -106,7 +108,7 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="lastname" placeholder="lastname"
-                                    name="name.last" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.last} />
+                                    name="name.last" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name.last} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="lastname">Last Name*</label>
                                 {formik.touched.name?.last && formik.errors.name?.last && <p className="text-danger fs-6" >{formik.errors.name?.last}</p>}
                             </div>
@@ -114,7 +116,7 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="phone" placeholder="phone"
-                                    name="phone" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phone} />
+                                    name="phone" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phone} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="phone">Phone*</label>
                                 {formik.touched.phone && formik.errors.phone && <p className="text-danger fs-6" >{formik.errors.phone}</p>}
                             </div>
@@ -124,14 +126,14 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="email" className="form-control" id="email" placeholder="Email"
-                                    name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
+                                    name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="email">Email*</label>
                                 {formik.touched.email && formik.errors.email && <p className="text-danger fs-6" >{formik.errors.email}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="password" className="form-control" id="password" placeholder="password" name="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
+                                <input type="password" className="form-control" id="password" placeholder="password" name="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="passwrod">Password*</label>
                                 {formik.touched.password && formik.errors.password && <p className="text-danger fs-6" >{formik.errors.password}</p>}
                             </div>
@@ -141,14 +143,14 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="imageUrl" placeholder="imageUrl"
-                                    name="image.url" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.image?.url} />
+                                    name="image.url" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.image?.url} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="imageUrl">Image Url</label>
                                 {formik.touched.image?.url && formik.errors.image?.url && <p className="text-danger fs-6" >{formik.errors.image?.url}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="imageAlt" placeholder="imageAlt" name="image.alt" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.image?.alt} />
+                                <input type="text" className="form-control" id="imageAlt" placeholder="imageAlt" name="image.alt" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.image?.alt} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="imageAlt">Image Alt</label>
                                 {formik.touched.image?.alt && formik.errors.image?.alt && <p className="text-danger fs-6" >{formik.errors.image?.alt}</p>}
                             </div>
@@ -158,14 +160,14 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="state" placeholder="state"
-                                    name="address.state" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.state} />
+                                    name="address.state" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.state} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="state">State</label>
                                 {formik.touched.address?.state && formik.errors.address?.state && <p className="text-danger fs-6" >{formik.errors.address?.state}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="country" placeholder="country" name="address.country" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.country} />
+                                <input type="text" className="form-control" id="country" placeholder="country" name="address.country" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.country} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="passwrod">Country*</label>
                                 {formik.touched.address?.country && formik.errors.address?.country && <p className="text-danger fs-6" >{formik.errors.address?.country}</p>}
                             </div>
@@ -175,14 +177,14 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="text" className="form-control" id="city" placeholder="city"
-                                    name="address.city" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.city} />
+                                    name="address.city" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.city} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="city">City*</label>
                                 {formik.touched.address?.city && formik.errors.address?.city && <p className="text-danger fs-6" >{formik.errors.address?.city}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="text" className="form-control" id="street" placeholder="street" name="address.street" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.street} />
+                                <input type="text" className="form-control" id="street" placeholder="street" name="address.street" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.street} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="street">Street*</label>
                                 {formik.touched.address?.street && formik.errors.address?.street && <p className="text-danger fs-6" >{formik.errors.address?.street}</p>}
                             </div>
@@ -192,20 +194,20 @@ const Signup: FunctionComponent<SignupProps> = () => {
                         <div className="col-md">
                             <div className="form-floating">
                                 <input type="number" className="form-control" id="housenumber" placeholder="housenumber"
-                                    name="address.houseNumber" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.houseNumber} />
+                                    name="address.houseNumber" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.houseNumber} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="housenumber">House Number*</label>
                                 {formik.touched.address?.houseNumber && formik.errors.address?.houseNumber && <p className="text-danger fs-6" >{formik.errors.address?.houseNumber}</p>}
                             </div>
                         </div>
                         <div className="col-md">
                             <div className="form-floating">
-                                <input type="number" className="form-control" id="zip" placeholder="zip" name="address.zip" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.zip} />
+                                <input type="number" className="form-control" id="zip" placeholder="zip" name="address.zip" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address.zip} style={{ backgroundColor: background, color: color }} />
                                 <label htmlFor="zip">Zip</label>
                                 {formik.touched.address?.zip && formik.errors.address?.zip && <p className="text-danger fs-6" >{formik.errors.address?.zip}</p>}
                             </div>
                         </div>
                         <div>
-                            <input type="checkbox" name="isBusiness" id="isBusiness" checked={formik.values.isBusiness} onChange={formik.handleChange} />
+                            <input type="checkbox" name="isBusiness" id="isBusiness" checked={formik.values.isBusiness} onChange={formik.handleChange} style={{ backgroundColor: background, color: color }} />
                             <label htmlFor="isBusiness" className="ms-2">Signup as business</label>
                         </div>
                         <button type="submit" disabled={!formik.dirty || !formik.isValid} className="btn btn-primary" >submit</button>

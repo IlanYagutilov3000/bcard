@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { User } from "../interfaces/User";
 import { deleteUser, editUserStatus, getAllUsers } from "../services/userService";
 import DeleteUserModal from "./DeleteUserModal";
 import UpdateUserModal from "./UpdateUserModal";
 import { errorMsg, successMsg } from "../services/feedback";
+import { SiteTheme } from "../App";
 
 interface SandBoxProps {
 
@@ -15,7 +16,9 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
     const [userId, setUserId] = useState<string>("");
     const [openDeleteUser, setOpenDeleteUser] = useState<boolean>(false);
     const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
-    const [statusChange, setStatusChange] = useState<boolean>(true)
+    const [statusChange, setStatusChange] = useState<boolean>(true);
+    const { color, background } = useContext(SiteTheme);
+
     useEffect(() => {
         getAllUsers().then((res) => {
             setUsers(res.data)
@@ -30,10 +33,10 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
 
     return (
         <>
-            <div className="container appMargin">
+            <div className="container appMargin" >
                 <h5 className="text-center">All Users</h5>
-                {users.length ? (<table className="table table-bordered border-primary">
-                    <thead>
+                {users.length ? (<table className="table table-dark table-striped" >
+                    <thead >
                         <tr>
                             <th className="col-2">First Name</th>
                             <th className="col-2">Last Name</th>
@@ -45,7 +48,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user: User) => (<tr key={user._id}>
+                        {users.map((user: User) => (<tr key={user._id} >
                             <td>{user.name.first}</td>
                             <td>{user.name.last}</td>
                             <td>{user.email}</td>

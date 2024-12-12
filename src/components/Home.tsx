@@ -51,10 +51,9 @@ const Home: FunctionComponent<HomeProps> = () => {
     }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
 
     const handleLikeToggle = (cardId: string) => {
-        // Toggle the like status in the state
         setLikedCards((prevLikedCards) => ({
             ...prevLikedCards,
-            [cardId]: !prevLikedCards[cardId], // Toggle like status
+            [cardId]: !prevLikedCards[cardId], 
         }));
     };
 
