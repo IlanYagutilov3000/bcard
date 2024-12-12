@@ -11,6 +11,7 @@ import DeleteCardModal from "./DeleteCardModal";
 import UpdateCardModal from "./UpdateCardModal";
 import { useSearchContext } from "../context/SeachContext";
 import { SiteTheme } from "../App";
+import { Link } from "react-router-dom";
 
 interface HomeProps {
 
@@ -75,7 +76,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                         filteredCards.map((card) => (
                             <div className="card col-md-4 shadow bg-tertiary rounded" key={card._id} style={{ width: "18rem", backgroundColor: background, color: color }}>
                                 <div>
-                                    <h5 className="card-title text-center">{card.title}</h5>
+                                    <h5 className="card-title text-center"><Link to={`/${card._id}`} className="card-title">{card.title}</Link></h5>
                                 </div>
                                 <img src={card?.image?.url} alt={card?.image?.alt} title={card.title} />
                                 <div className="card-body">
