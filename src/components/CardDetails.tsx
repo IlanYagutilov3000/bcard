@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCardById } from "../services/cardService";
+import { getCardById, updateCardBizzNumber } from "../services/cardService";
 import Card from "../interfaces/Card";
 import "../styles/CardDetails.css";
 import { useUserContext } from "../context/userContext";
@@ -12,7 +12,8 @@ interface CardDetailsProps {
 const CardDetails: FunctionComponent<CardDetailsProps> = () => {
     const { id } = useParams()
     const [cardDetails, setCardDetails] = useState<Card | null>(null);
-    const {isAdmin} = useUserContext()
+    const { isAdmin } = useUserContext();
+    const [bizzNumber, setBizzNumber] = useState<number | null>(null)
     useEffect(() => {
         getCardById(id as string).then((res) => {
             setCardDetails(res.data)
@@ -34,7 +35,7 @@ const CardDetails: FunctionComponent<CardDetailsProps> = () => {
                     <p>{cardDetails?.description}</p>
                     <p><span className="fw-bold">Phone</span>: {cardDetails?.phone}</p>
                     <p><span className="fw-bold">email</span>: {cardDetails?.email}</p>
-                    <p><span className="fw-bold">Bizz Number</span>: {cardDetails?.bizNumber} {isAdmin && (<button className="btn"><i className="fa-solid fa-pen text-success"></i></button>)} </p>
+                    <p><span className="fw-bold">Bizz Number</span>: {cardDetails?.bizNumber}</p>
                     <p><a href={cardDetails?.web} target="_blank" rel="noopener noreferrer">Click To Go The Website </a></p>
                     <p><span className="fw-bold">Address</span>: {cardDetails?.address.street}, {cardDetails?.address.city}, {cardDetails?.address.state}, {cardDetails?.address.country}</p>
                 </div>

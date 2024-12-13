@@ -10,9 +10,9 @@
     width: 100% !important;
   }
 
-  /* .tableScroll {
+  .tableScroll {
     overflow: auto !important;
-  } */
+  }
 }
 
 /* to fix the footer and weird white space*/
@@ -45,6 +45,10 @@ footer {
 .imgSize img {
   width: 40px;
   border-radius: 20px;
+}
+
+.darkThemeBtn i{
+  cursor: pointer;
 }
 
 /* From Uiverse.io by Li-Deheng */

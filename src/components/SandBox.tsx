@@ -33,7 +33,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
 
     return (
         <>
-            <div className="container appMargin" >
+            <div className="container appMargin tableScroll" >
                 <h5 className="text-center">All Users</h5>
                 {users.length ? (<table className="table table-dark table-striped" >
                     <thead >

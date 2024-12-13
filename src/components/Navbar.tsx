@@ -67,7 +67,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                 <div className="container-fluid p-3" style={{ backgroundColor: background, color: color }}  >
                     <NavLink className="navbar-brand" to={'/'} style={{ color: color }} >BCard</NavLink >
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style={{ backgroundColor: background, color: color }} >
-                        <span className="navbar-toggler-icon" style={{ backgroundColor: background, color: color }} ></span>
+                        <span style={{ backgroundColor: background, color: color }}><i className="fa-solid fa-bars"></i></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent" >
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -84,14 +84,17 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                                 <NavLink className="nav-link active" aria-current="page" to={'/sandbox'} style={{ color: color }}>SandBox</NavLink>
                             </li>}
                         </ul>
-                        <div >
-                            <button
+                        <div className="darkThemeBtn me-2" >
+                            {/* <button
                                 className="btn"
                                 onClick={toggleTheme}
                                 style={{ color: color, backgroundColor: background }}
                                 title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
-                            ><i className={darkMode ? "fa-solid fa-moon" : "fa-solid fa-sun"}></i>
-                            </button>
+                            ><i className={darkMode ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
+                            </button> */}
+                            <i  className={darkMode ? "fa-solid fa-sun" : "fa-solid fa-moon"} onClick={toggleTheme}
+                                style={{ color: color, backgroundColor: background }}
+                                title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}></i>
                         </div>
 
                         <form className="d-flex" role="search">
@@ -102,7 +105,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
                             <button onClick={() => {
                                 handleLogout()
-                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" /* style={{ color: color }} */></i></button>
+                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" style={{ color: color }}></i></button>
 
                         </div>
                         </>)

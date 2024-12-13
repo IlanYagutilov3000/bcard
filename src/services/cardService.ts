@@ -51,10 +51,10 @@ export async function likeAndUnlike(cardId: string, userId: string) {
 
         if (isLiked) {
             cardResponse.data.likes = likes.filter((id: string) => id !== userId);
-            successMsg("Card has been unliked successfully!");
+            successMsg("Card been unliked!");
         } else {
             cardResponse.data.likes.push(userId);
-            successMsg("card was liked successfully");
+            successMsg("card was liked");
         }
 
         await axios.patch(`${api}/${cardId}`,
