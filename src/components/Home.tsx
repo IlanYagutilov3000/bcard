@@ -1,7 +1,6 @@
 import { FunctionComponent, useContext, useEffect, useRef, useState } from "react";
 import Card from "../interfaces/Card";
 import { deleteCard, getAllCards, likeAndUnlike, /* likeAndUnlike */ } from "../services/cardService";
-import { getUserById } from "../services/userService";
 import axios from "axios";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
@@ -21,7 +20,6 @@ const Home: FunctionComponent<HomeProps> = () => {
     const [cards, setCards] = useState<Card[]>([])
     const [cardChanged, setCardChanged] = useState<boolean>(false)
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
-    const { afterDecode } = useToken();
     const { } = useUserContext();
     const [likedCards, setLikedCards] = useState<{ [key: string]: boolean }>({});
     const [openDeleteCard, setOpenDeleteCard] = useState<boolean>(false)
@@ -31,24 +29,10 @@ const Home: FunctionComponent<HomeProps> = () => {
     const { search } = useSearchContext()
     const { color, background } = useContext(SiteTheme);
 
-
     useEffect(() => {
         getAllCards().then((res) => setCards(res.data)).catch((err) => console.log(err)
         )
     }, [cardChanged]);
-
-    useEffect(() => {
-        if (afterDecode) {
-            setAuth(afterDecode);
-            setIsLogedIn(true);
-            setIsAdmin(afterDecode.isAdmin);
-            setIsBusiness(afterDecode.isBusiness);
-        } else {
-            setIsLogedIn(false);
-            setIsAdmin(false);
-            setIsBusiness(false)
-        }
-    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
 
     const handleLikeToggle = (cardId: string) => {
         setLikedCards((prevLikedCards) => ({

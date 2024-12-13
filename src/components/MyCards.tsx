@@ -3,7 +3,6 @@ import { deleteCard, getMyCards } from "../services/cardService";
 import Card from "../interfaces/Card";
 import CreateCardModal from "./CreateCardModal";
 import { useUserContext } from "../context/userContext";
-import useToken from "../customHooks/useToken";
 import UpdateCardModal from "./UpdateCardModal";
 import DeleteCardModal from "./DeleteCardModal";
 import { SiteTheme } from "../App";
@@ -21,7 +20,6 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
     const [cardId, setCardId] = useState<string>("")
     const [bizNumber, setBizzNumber] = useState<number>(0)
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
-    const { afterDecode } = useToken();
     const { color, background } = useContext(SiteTheme);
 
     let refresh = () => {
@@ -36,22 +34,9 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
         })
     }, [cardChanged])
 
-    useEffect(() => {
-        if (afterDecode) {
-            setAuth(afterDecode);
-            setIsLogedIn(true);
-            setIsAdmin(afterDecode.isAdmin);
-            setIsBusiness(afterDecode.isBusiness);
-        } else {
-            setIsLogedIn(false);
-            setIsAdmin(false);
-            setIsBusiness(false)
-        }
-    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
-
     return (
         <>
-            
+
             <div className="container text-center appMargin">
                 <h3 className="display-4">My Cards</h3>
                 <p>Here you can find all your cards, you can add cards from here, edit cards or delete your cards</p>
@@ -62,7 +47,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                     {myCards.length ? (
                         myCards.map(card => (
                             <div
-                                className="card col-md-4 shadow bg-tertiary rounded " 
+                                className="card col-md-4 shadow bg-tertiary rounded "
                                 key={card._id}
                                 style={{ width: "18rem", backgroundColor: background, color: color }}
                             >

@@ -1,7 +1,7 @@
 import { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 /* import { SiteTheme } from "../App"; */
-import { getUserById, getUserByIdTwo } from "../services/userService";
+import { getUserByIdTwo, getUserDetails } from "../services/userService";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
@@ -13,9 +13,7 @@ interface NavbarProps {
     setDarkMode: (darkMode: boolean) => void;
 }
 
-
 const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
-    /* const theme = useContext(SiteTheme); */
     const { color, background } = useContext(SiteTheme);
     const { setAuth, auth, isAdmin, isLogedIn, setIsLogedIn, isBusiness, setIsBusiness, setIsAdmin } = useUserContext()
     const { afterDecode } = useToken();
@@ -25,7 +23,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
 
     useEffect(() => {
         if (afterDecode && localStorage.token) {
-            getUserById().then((res) => {
+            getUserDetails().then((res) => {
                 setUser(res.data)
             }).catch((err) => {
                 console.log(err)
@@ -33,19 +31,6 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
             })
         }
     }, []);
-
-    useEffect(() => {
-        if (afterDecode) {
-            setAuth(afterDecode);
-            setIsLogedIn(true);
-            setIsAdmin(afterDecode.isAdmin);
-            setIsBusiness(afterDecode.isBusiness);
-        } else {
-            setIsLogedIn(false);
-            setIsAdmin(false);
-            setIsBusiness(false)
-        }
-    }, [useToken, setAuth, isLogedIn, isAdmin, isBusiness]);
 
     const handleLogout = () => {
         setAuth(null);
@@ -85,14 +70,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             </li>}
                         </ul>
                         <div className="darkThemeBtn me-2" >
-                            {/* <button
-                                className="btn"
-                                onClick={toggleTheme}
-                                style={{ color: color, backgroundColor: background }}
-                                title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
-                            ><i className={darkMode ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
-                            </button> */}
-                            <i  className={darkMode ? "fa-solid fa-sun" : "fa-solid fa-moon"} onClick={toggleTheme}
+                            <i className={darkMode ? "fa-solid fa-sun" : "fa-solid fa-moon"} onClick={toggleTheme}
                                 style={{ color: color, backgroundColor: background }}
                                 title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}></i>
                         </div>

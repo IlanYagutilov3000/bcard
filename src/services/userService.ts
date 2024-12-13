@@ -23,8 +23,8 @@ export function userLogin(email: string, password: string) {
     return axios.post(`${api}/login`, { email, password })
 }
 
-//get user by id
-export function getUserById() {
+//get user details by id
+export function getUserDetails() {
     if (token === null || token === undefined) {
         console.log("error");
         return Promise.reject("No token found");

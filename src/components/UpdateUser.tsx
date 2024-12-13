@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { User } from "../interfaces/User";
-import { editUser, getUserById, getUserByIdTwo } from "../services/userService";
+import { editUser, getUserByIdTwo } from "../services/userService";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { FormikValues, useFormik } from "formik";
 import * as yup from "yup";

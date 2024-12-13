@@ -31,8 +31,6 @@ const themes = {
 export const SiteTheme = createContext(themes.light)
 
 function App() {
-  /* const theme = useContext(SiteTheme) */
-  /* const [darkMode, setDarkMode] = useState<boolean>(false); */
   const savedTheme = localStorage.getItem("theme");
   const [darkMode, setDarkMode] = useState<boolean>(savedTheme === "dark");
 
@@ -59,7 +57,7 @@ function App() {
                 <Route path='/sandbox' element={<SandBox />} />
                 <Route path='*' element={<PageNotFound />} />
               </Routes>
-              <Footer/>
+              <Footer />
             </SiteTheme.Provider>
           </Router>
         </SearchProvider>

@@ -17,7 +17,6 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
     const [openDeleteUser, setOpenDeleteUser] = useState<boolean>(false);
     const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
     const [statusChange, setStatusChange] = useState<boolean>(true);
-    const { color, background } = useContext(SiteTheme);
 
     useEffect(() => {
         getAllUsers().then((res) => {
@@ -52,7 +51,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                             <td>{user.name.first}</td>
                             <td>{user.name.last}</td>
                             <td>{user.email}</td>
-                            {user.isBusiness ? (<td><i className="fa-solid fa-check"></i></td>) : (<td>{/* <i className="fa-solid fa-x"></i> */}<div className="form-check">
+                            {user.isBusiness ? (<td><i className="fa-solid fa-check"></i></td>) : (<td><div className="form-check">
                                 <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={() => {
                                     editUserStatus(user._id as string, statusChange as boolean).then((res) => {
                                         successMsg("User Changed To Business")

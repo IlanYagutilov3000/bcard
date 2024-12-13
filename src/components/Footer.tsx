@@ -1,6 +1,5 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserById } from "../services/userService";
 import { useUserContext } from "../context/userContext";
 import useToken from "../customHooks/useToken";
 import { User } from "../interfaces/User";
