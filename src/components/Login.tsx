@@ -44,13 +44,10 @@ const Login: FunctionComponent<LoginProps> = () => {
         }),
         onSubmit: (values) => {
             userLogin(values.email, values.password).then((res: any) => {
-                /* localStorage.setItem("token", JSON.stringify(token)) */
                 localStorage.token = res.data
-                /* may need to change the name of this var */
-                /* setTokenHolder(token) */
                 setAuth(afterDecode);
                 navigate("/")
-                successMsg("You've Loggedin successfully")
+                successMsg("You've Logged in successfully")
             }).catch((err) => {
                 errorMsg("Email or Password are incorrect")
                 console.log(err);

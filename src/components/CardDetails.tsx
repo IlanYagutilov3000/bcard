@@ -4,7 +4,6 @@ import { getCardById, updateCardBizzNumber } from "../services/cardService";
 import Card from "../interfaces/Card";
 import "../styles/CardDetails.css";
 import { useUserContext } from "../context/userContext";
-
 interface CardDetailsProps {
 
 }
@@ -14,6 +13,9 @@ const CardDetails: FunctionComponent<CardDetailsProps> = () => {
     const [cardDetails, setCardDetails] = useState<Card | null>(null);
     const { isAdmin } = useUserContext();
     const [bizzNumber, setBizzNumber] = useState<number | null>(null)
+    const [openEditBizz, setOpenEditBizz] = useState<boolean>(false)
+    const [cardChanged, setCardChanged] = useState<boolean>(false)
+
     useEffect(() => {
         getCardById(id as string).then((res) => {
             setCardDetails(res.data)
@@ -40,7 +42,6 @@ const CardDetails: FunctionComponent<CardDetailsProps> = () => {
                     <p><span className="fw-bold">Address</span>: {cardDetails?.address.street}, {cardDetails?.address.city}, {cardDetails?.address.state}, {cardDetails?.address.country}</p>
                 </div>
             </div>
-
         </>
     );
 }

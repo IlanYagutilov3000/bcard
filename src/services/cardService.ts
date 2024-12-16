@@ -74,8 +74,8 @@ export async function likeAndUnlike(cardId: string, userId: string) {
 
 //patch card bizz number
 /* needs to be an object */
-export function updateCardBizzNumber(cardId: string, bizzNumber: any) {
-    return axios.patch(`${api}/${cardId}`, bizzNumber, { headers: { "x-auth-token": token } })
+export function updateCardBizzNumber(cardId: string, bizNumber: any) {
+    return axios.patch(`${api}/${cardId}`, bizNumber, { headers: { "x-auth-token": token } })
 }
 
 //delete card

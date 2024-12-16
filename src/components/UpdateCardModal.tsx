@@ -1,6 +1,7 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import { Modal } from "react-bootstrap";
 import EditCard from "./EditCard";
+import { SiteTheme } from "../App";
 
 interface UpdateCardModalProps {
     show: boolean;
@@ -10,6 +11,7 @@ interface UpdateCardModalProps {
 }
 
 const UpdateCardModal: FunctionComponent<UpdateCardModalProps> = ({show, onHide, refresh, cardId}) => {
+    const { color, background } = useContext(SiteTheme);
     return (
         <>
             <Modal
@@ -19,15 +21,15 @@ const UpdateCardModal: FunctionComponent<UpdateCardModalProps> = ({show, onHide,
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton style={{ backgroundColor: background, color: color }}>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Update Card
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{ backgroundColor: background, color: color }}>
                     <EditCard onHide={onHide} refresh={refresh} cardId={cardId} />
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer style={{ backgroundColor: background, color: color }}>
                 </Modal.Footer>
             </Modal >
         </>

@@ -77,8 +77,6 @@ const Signup: FunctionComponent<SignupProps> = () => {
             }).catch((err) => {
                 errorMsg("something went wrong")
             })
-            console.log(values);
-
         }
     })
     return (
