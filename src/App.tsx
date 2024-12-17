@@ -16,6 +16,7 @@ import { UserProvider } from './context/userContext';
 import SandBox from './components/SandBox';
 import { SearchProvider } from './context/SeachContext';
 import CardDetails from './components/CardDetails';
+import RegularUserEdit from './components/RegularUserEdit';
 
 const themes = {
   light: {
@@ -53,7 +54,8 @@ function App() {
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/my-cards' element={<MyCards />} />
                 <Route path='/fav-cards' element={<FavCards />} />
-                <Route path=':id' element={<CardDetails />} />
+                <Route path='/:id' element={<CardDetails />} />
+                <Route path='user-edit/:id' element={<RegularUserEdit />} />
                 <Route path='/sandbox' element={<SandBox />} />
                 <Route path='*' element={<PageNotFound />} />
               </Routes>

@@ -1,5 +1,5 @@
 import { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 /* import { SiteTheme } from "../App"; */
 import { getUserByIdTwo, getUserDetails } from "../services/userService";
 import { User } from "../interfaces/User";
@@ -77,14 +77,13 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
 
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearch(e.target.value)} />
-
                         </form>
+                        {isLogedIn && <Link to={`user-edit/${user?._id}`} title="Settings" ><i className="fa-solid fa-gear mx-2 text-warning"></i></Link>}
                         {isLogedIn ? (<><div className="imgSize">
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
                             <button onClick={() => {
                                 handleLogout()
                             }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" style={{ color: color }}></i></button>
-
                         </div>
                         </>)
                             : (<>

@@ -1,26 +1,30 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
-import { User } from "../interfaces/User";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { editUser, getUserByIdTwo } from "../services/userService";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { UpdatedUser } from "../interfaces/UpdatedUser";
 import { FormikValues, useFormik } from "formik";
 import * as yup from "yup";
 import { errorMsg, successMsg } from "../services/feedback";
-import { useUserContext } from "../context/userContext";
-import { UpdatedUser } from "../interfaces/UpdatedUser";
 import { SiteTheme } from "../App";
 
+interface RegularUserEditProps {
 
-
-interface UpdateUserProps {
-    onHide: Function;
-    refresh: Function;
-    userId: string
 }
 
-const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userId }) => {
-    const { color, background } = useContext(SiteTheme);
+const RegularUserEdit: FunctionComponent<RegularUserEditProps> = () => {
+    const { id } = useParams();
+    const [user, setUser] = useState<UpdatedUser | null>(null)
     const navigate: NavigateFunction = useNavigate()
-    const { auth } = useUserContext()
+    const { color, background } = useContext(SiteTheme);
+
+    useEffect(() => {
+        getUserByIdTwo(id as string).then((res) => {
+            setUserDetails(res.data)
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
     let [userDetails, setUserDetails] = useState<UpdatedUser>({
         name: {
             first: "",
@@ -41,11 +45,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
             zip: 0,
         },
     })
-    useEffect(() => {
-        getUserByIdTwo(userId).then((res) => setUserDetails(res.data)).catch((err) => {
-            console.log(err);
-        })
-    }, []);
 
     const formik: FormikValues = useFormik<UpdatedUser>({
         initialValues: {
@@ -76,15 +75,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                 last: yup.string().required("last name is a required field"),
             }),
             phone: yup.string().required().matches(/^05[0-9]{1}-?[0-9]{7}$/, "Invalid phone format"),
-            /*  email: yup.string().required().email(),
-             password: yup
-                 .string()
-                 .required()
-                 .min(8)
-                 .matches(
-                     /^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){4})(?=.*[!@%$#^&*\-_+()]).{8,}$/,
-                     "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, at least 4 numbers and at least one of the following characters !@#$%^&*-"
-                 ), */
             image: yup.object({
                 url: yup.string(),
                 alt: yup.string(),
@@ -97,14 +87,11 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                 houseNumber: yup.number().required("hosue number is a required field"),
                 zip: yup.number(),
             }),
-            /* isBusiness: yup.boolean() */
         }),
         onSubmit: (values) => {
-
-            editUser(userId, values).then((res) => {
+            editUser(id as string, values).then((res) => {
                 successMsg("User Was Updated Successfully");
-                onHide();
-                refresh();
+                navigate("/")
             }).catch((err) => {
                 errorMsg("Opss.. sometihng went wrong")
                 console.log(err)
@@ -114,8 +101,8 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
     })
     return (
         <>
-            <h3 className="text-center display-5 my-3">Update</h3>
-            <div className="container forMediaQuary w-50">
+            <h3 className="text-center display-5 my-1">Update</h3>
+            <div className="container forMediaQuary appMargin w-50">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row g-2 mb-3">
                         <div className="col-md">
@@ -153,23 +140,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                             </div>
                         </div>
                     </div>
-                    {/* <div className="row g-2 mb-3">
-                        <div className="col-md">
-                            <div className="form-floating">
-                                <input type="email" className="form-control" id="email" placeholder="Email"
-                                    name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
-                                <label htmlFor="email">Email*</label>
-                                {formik.touched.email && formik.errors.email && <p className="text-danger fs-6" >{formik.errors.email}</p>}
-                            </div>
-                        </div>
-                        <div className="col-md">
-                            <div className="form-floating">
-                                <input type="password" className="form-control" id="password" placeholder="password" name="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                                <label htmlFor="passwrod">Password*</label>
-                                {formik.touched.password && formik.errors.password && <p className="text-danger fs-6" >{formik.errors.password}</p>}
-                            </div>
-                        </div>
-                    </div> */}
                     <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
@@ -237,21 +207,14 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                                 {formik.touched.address?.zip && formik.errors.address?.zip && <p className="text-danger fs-6" >{formik.errors.address?.zip}</p>}
                             </div>
                         </div>
-                        {/*  <div>
-                            <input type="checkbox" name="isBusiness" id="isBusiness" checked={formik.values.isBusiness} onChange={formik.handleChange} />
-                            <label htmlFor="isBusiness" className="ms-2">Signup as business</label>
-                        </div> */}
                         <button type="submit" disabled={!formik.dirty || !formik.isValid} className="btn btn-primary" >submit</button>
                     </div>
                 </form>
                 <div className="row g-2">
-                    {/* <div className="col-md">
-                        <button className="btn btn-outline-danger w-100" onClick={() => navigate("/")}>CANCEL</button>
-                    </div> */}
                 </div>
             </div>
         </>
     );
 }
 
-export default UpdateUser;
+export default RegularUserEdit;
