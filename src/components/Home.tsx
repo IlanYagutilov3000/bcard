@@ -37,7 +37,7 @@ const Home: FunctionComponent<HomeProps> = () => {
     const handleLikeToggle = (cardId: string) => {
         setLikedCards((prevLikedCards) => ({
             ...prevLikedCards,
-            [cardId]: !prevLikedCards[cardId], 
+            [cardId]: !prevLikedCards[cardId],
         }));
     };
 
@@ -45,9 +45,24 @@ const Home: FunctionComponent<HomeProps> = () => {
         setCardChanged(!cardChanged)
     }
 
+    // const [page, setPage] = useState(0)
+
     const filteredCards = cards.filter((card) => {
         return card.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     })
+
+    /*
+        const filteredCards = cards.filter((card, index) => {
+            if (!card.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
+                return false;
+            }
+            const cardPage = Math.floor(index / 5);
+            return page === cardPAge
+        })
+    
+    */
+
+    // card.likes.includes(user._id) ? 'target-danger' : ''
 
     return (
         <>
@@ -89,7 +104,8 @@ const Home: FunctionComponent<HomeProps> = () => {
                                             <button className="btn" onClick={() => {
                                                 handleLikeToggle(card._id as string);
                                                 likeAndUnlike(card._id as string, auth?._id as string);
-                                            }}><i className={`fa-solid fa-heart ${likedCards[card._id as string] ? 'text-danger' : ''}`}></i></button>
+                                            }}><i className={`fa-solid fa-heart ${likedCards[card._id as string] || card?.likes?.includes(auth?._id || '') ? 'text-danger' : ''}`}></i>
+                                            </button>
                                         )}
                                     </div>
                                 </div>

@@ -4,8 +4,10 @@ import {
     useState,
     ReactNode,
     FunctionComponent,
+    useEffect,
 } from "react";
 import { User } from "../interfaces/User";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
 interface UserContextType {
     auth: User | null;
@@ -33,6 +35,8 @@ interface UserProviderProps {
 }
 
 export const UserProvider: FunctionComponent<UserProviderProps> = ({ children }) => {
+    const token = localStorage.getItem("token")
+
     const [auth, setAuth] = useState<User | null>(null);
     const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -40,19 +44,19 @@ export const UserProvider: FunctionComponent<UserProviderProps> = ({ children })
 
     return (
         <UserContext.Provider
-            value= {{
-        auth,
-            setAuth,
-            isLogedIn,
-            setIsLogedIn,
-            isAdmin,
-            setIsAdmin,
-            isBusiness,
-            setIsBusiness,
+            value={{
+                auth,
+                setAuth,
+                isLogedIn,
+                setIsLogedIn,
+                isAdmin,
+                setIsAdmin,
+                isBusiness,
+                setIsBusiness,
             }
-}
+            }
         >
-    { children }
-    </UserContext.Provider>
+            {children}
+        </UserContext.Provider>
     );
 };

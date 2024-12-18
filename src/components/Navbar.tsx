@@ -33,6 +33,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
     }, []);
 
     const handleLogout = () => {
+        setUser(null)
         setAuth(null);
         navigate("/login")
         setIsAdmin(false);

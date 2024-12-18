@@ -15,18 +15,15 @@ const FavCards: FunctionComponent<FavCardsProps> = () => {
 
     useEffect(() => {
         if (auth) {
-            // Fetch the liked cards based on user ID
             getAllCards().then((res) => {
-                const likedCards = res.data.filter((card: any) => card.likes.includes(auth._id)); // Filter liked cards
+                const likedCards = res.data.filter((card: any) => card.likes.includes(auth._id));
                 setFavoriteCards(likedCards);
             }).catch((err) => console.log(err));
         }
     }, [auth]);
 
     const handleUnlikeCard = (cardId: string) => {
-        // Call the API to unlike the card
         likeAndUnlike(cardId, auth?._id as string).then(() => {
-            // Remove the card from the state (local update)
             setFavoriteCards((prevFavorites) =>
                 prevFavorites.filter((card) => card._id !== cardId)
             );
@@ -66,7 +63,7 @@ const FavCards: FunctionComponent<FavCardsProps> = () => {
                                     <div>
                                         <button className="btn" onClick={() => {
                                             handleUnlikeCard(card._id as string)
-                                        }} ><i className="fa-solid fa-heart"></i></button>
+                                        }} ><i className="fa-solid fa-heart text-danger"></i></button>
                                     </div>
                                 </div>
                             </div>
