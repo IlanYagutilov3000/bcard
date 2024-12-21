@@ -2,11 +2,11 @@ import axios from "axios";
 import { User } from "../interfaces/User";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { UpdatedUser } from "../interfaces/UpdatedUser";
+import { useState } from "react";
 
 
 const api: string = `${process.env.REACT_APP_API}/users`
-const token = localStorage.getItem("token")
-
+const token = localStorage.getItem("token");
 
 //get all users
 export function getAllUsers() {

@@ -39,7 +39,6 @@ const Signup: FunctionComponent<SignupProps> = () => {
             },
             isBusiness: false
         },
-        /* will need to add diffrnernt error msg to every incorect input field you do that with , "and write the error message" */
         validationSchema: yup.object({
             name: yup.object({
                 first: yup.string().required("name is a required field").min(2),

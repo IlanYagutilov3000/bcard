@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext, useEffect, useRef, useState } from "react";
 import Card from "../interfaces/Card";
-import { deleteCard, getAllCards, likeAndUnlike, /* likeAndUnlike */ } from "../services/cardService";
+import { deleteCard, getAllCards, likeAndUnlike } from "../services/cardService";
 import axios from "axios";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";
@@ -45,24 +45,11 @@ const Home: FunctionComponent<HomeProps> = () => {
         setCardChanged(!cardChanged)
     }
 
-    // const [page, setPage] = useState(0)
 
     const filteredCards = cards.filter((card) => {
         return card.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     })
 
-    /*
-        const filteredCards = cards.filter((card, index) => {
-            if (!card.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
-                return false;
-            }
-            const cardPage = Math.floor(index / 5);
-            return page === cardPAge
-        })
-    
-    */
-
-    // card.likes.includes(user._id) ? 'target-danger' : ''
 
     return (
         <>

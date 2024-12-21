@@ -1,6 +1,5 @@
 import { createContext, FunctionComponent, useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-/* import { SiteTheme } from "../App"; */
 import { getUserByIdTwo, getUserDetails } from "../services/userService";
 import { User } from "../interfaces/User";
 import { useUserContext } from "../context/userContext";

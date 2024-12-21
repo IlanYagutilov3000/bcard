@@ -7,7 +7,6 @@ import {
     useEffect,
 } from "react";
 import { User } from "../interfaces/User";
-import { jwtDecode, JwtPayload } from "jwt-decode";
 
 interface UserContextType {
     auth: User | null;
@@ -35,8 +34,6 @@ interface UserProviderProps {
 }
 
 export const UserProvider: FunctionComponent<UserProviderProps> = ({ children }) => {
-    const token = localStorage.getItem("token")
-
     const [auth, setAuth] = useState<User | null>(null);
     const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);

@@ -1,12 +1,13 @@
 import { FormikValues, useFormik } from "formik";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
 import * as yup from "yup";
 import Card from "../interfaces/Card";
 import { createNewCard } from "../services/cardService";
 import { errorMsg, successMsg } from "../services/feedback";
 import { Modal } from "react-bootstrap";
 import CreateCard from "./CreateCard";
-/* need to add prop for the modal */
+import { SiteTheme } from "../App";
+
 interface CreateCardModalProps {
     show: boolean;
     onHide: Function;
@@ -14,6 +15,7 @@ interface CreateCardModalProps {
 }
 
 const CreateCardModal: FunctionComponent<CreateCardModalProps> = ({onHide, refresh, show}) => {
+    const { color, background } = useContext(SiteTheme);
     return (
         <>
             <Modal
@@ -23,15 +25,15 @@ const CreateCardModal: FunctionComponent<CreateCardModalProps> = ({onHide, refre
             aria-labelledby="contained-modal-title-vcenter"
             centered
             >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Header closeButton style={{ backgroundColor: background, color: color }}>
+                <Modal.Title id="contained-modal-title-vcenter" >
                     Update User
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+                <Modal.Body style={{ backgroundColor: background, color: color }}>
                 <CreateCard onHide={onHide} refresh={refresh} />
             </Modal.Body>
-            <Modal.Footer>
+                <Modal.Footer style={{ backgroundColor: background, color: color }}>
             </Modal.Footer>
         </Modal >
         </>

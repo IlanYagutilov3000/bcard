@@ -32,6 +32,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
 
     return (
         <>
+            {/* this component take some time to load due to the amount uf users */}
             <div className="container appMargin tableScroll" >
                 <h5 className="text-center">All Users</h5>
                 {users.length ? (<table className="table table-dark table-striped" >

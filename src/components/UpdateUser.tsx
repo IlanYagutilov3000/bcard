@@ -76,15 +76,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                 last: yup.string().required("last name is a required field"),
             }),
             phone: yup.string().required().matches(/^05[0-9]{1}-?[0-9]{7}$/, "Invalid phone format"),
-            /*  email: yup.string().required().email(),
-             password: yup
-                 .string()
-                 .required()
-                 .min(8)
-                 .matches(
-                     /^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){4})(?=.*[!@%$#^&*\-_+()]).{8,}$/,
-                     "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, at least 4 numbers and at least one of the following characters !@#$%^&*-"
-                 ), */
             image: yup.object({
                 url: yup.string(),
                 alt: yup.string(),
@@ -97,7 +88,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                 houseNumber: yup.number().required("hosue number is a required field"),
                 zip: yup.number(),
             }),
-            /* isBusiness: yup.boolean() */
         }),
         onSubmit: (values) => {
 
@@ -153,23 +143,6 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                             </div>
                         </div>
                     </div>
-                    {/* <div className="row g-2 mb-3">
-                        <div className="col-md">
-                            <div className="form-floating">
-                                <input type="email" className="form-control" id="email" placeholder="Email"
-                                    name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
-                                <label htmlFor="email">Email*</label>
-                                {formik.touched.email && formik.errors.email && <p className="text-danger fs-6" >{formik.errors.email}</p>}
-                            </div>
-                        </div>
-                        <div className="col-md">
-                            <div className="form-floating">
-                                <input type="password" className="form-control" id="password" placeholder="password" name="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                                <label htmlFor="passwrod">Password*</label>
-                                {formik.touched.password && formik.errors.password && <p className="text-danger fs-6" >{formik.errors.password}</p>}
-                            </div>
-                        </div>
-                    </div> */}
                     <div className="row g-2 mb-3">
                         <div className="col-md">
                             <div className="form-floating">
@@ -237,18 +210,9 @@ const UpdateUser: FunctionComponent<UpdateUserProps> = ({ onHide, refresh, userI
                                 {formik.touched.address?.zip && formik.errors.address?.zip && <p className="text-danger fs-6" >{formik.errors.address?.zip}</p>}
                             </div>
                         </div>
-                        {/*  <div>
-                            <input type="checkbox" name="isBusiness" id="isBusiness" checked={formik.values.isBusiness} onChange={formik.handleChange} />
-                            <label htmlFor="isBusiness" className="ms-2">Signup as business</label>
-                        </div> */}
                         <button type="submit" disabled={!formik.dirty || !formik.isValid} className="btn btn-primary" >submit</button>
                     </div>
                 </form>
-                <div className="row g-2">
-                    {/* <div className="col-md">
-                        <button className="btn btn-outline-danger w-100" onClick={() => navigate("/")}>CANCEL</button>
-                    </div> */}
-                </div>
             </div>
         </>
     );

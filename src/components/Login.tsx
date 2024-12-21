@@ -19,6 +19,7 @@ const Login: FunctionComponent<LoginProps> = () => {
     const { setAuth, setIsBusiness, setIsAdmin, isLogedIn, setIsLogedIn } = useUserContext()
     const navigate = useNavigate()
     const { color, background } = useContext(SiteTheme);
+    
 
     useEffect(() => {
         if (afterDecode && localStorage.token) {
@@ -48,6 +49,8 @@ const Login: FunctionComponent<LoginProps> = () => {
                 setAuth(afterDecode);
                 navigate("/")
                 successMsg("You've Logged in successfully")
+                //makes the all app re render less "React-friendly" but that's all I could come up with, with the limited time I had
+                window.location.reload();
             }).catch((err) => {
                 errorMsg("Email or Password are incorrect")
                 console.log(err);
