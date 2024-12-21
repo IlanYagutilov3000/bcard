@@ -27,7 +27,7 @@ const CreateCardModal: FunctionComponent<CreateCardModalProps> = ({onHide, refre
             >
                 <Modal.Header closeButton style={{ backgroundColor: background, color: color }}>
                 <Modal.Title id="contained-modal-title-vcenter" >
-                    Update User
+                    Create Card
                 </Modal.Title>
             </Modal.Header>
                 <Modal.Body style={{ backgroundColor: background, color: color }}>

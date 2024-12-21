@@ -80,8 +80,8 @@ const Signup: FunctionComponent<SignupProps> = () => {
     })
     return (
         <>
-            <h3 className="text-center display-5 my-3 appMargin">REGISTER</h3>
-            <div className="container forMediaQuary w-50" >
+            <h3 className="text-center display-5 my-3">REGISTER</h3>
+            <div className="container forMediaQuary w-50 appMargin" >
                 <form onSubmit={formik.handleSubmit}>
                     <div className="row g-2 mb-3" >
                         <div className="col-md" >

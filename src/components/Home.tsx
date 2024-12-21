@@ -53,9 +53,10 @@ const Home: FunctionComponent<HomeProps> = () => {
 
     return (
         <>
-            <h1 className="display-1">Cards Page</h1>
-            <p>Here you can find business cards from all categories</p>
+
             <div className="container appMargin">
+                <h1 className="display-1 text-center">Cards Page</h1>
+                <p className="text-center">Here you can find business cards from all categories</p>
                 <div className="row mt-3 gap-2 d-flex justify-content-center flex-wrap" >
                     {filteredCards.length ? (
                         filteredCards.map((card) => (
