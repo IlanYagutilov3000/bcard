@@ -83,7 +83,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({ darkMode, setDarkMode }) => {
                             <img src={user?.image?.url} alt={user?.image?.alt} className="ms-2" />
                             <button onClick={() => {
                                 handleLogout()
-                            }} className="btn " title="Logout" ><i className="fa-solid fa-arrow-right" style={{ color: color }}></i></button>
+                            }} className="btn " title="Logout" ><i className="fa-solid fa-right-from-bracket" style={{ color: color }}></i></button>
                         </div>
                         </>)
                             : (<>
