@@ -87,7 +87,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                                         </div>
                                     )}
                                     <div>
-                                        <button className="btn"><i className="fa-solid fa-phone"></i></button>
+                                        <a href={`tel:${card.phone}`} className="btn"><i className="fa-solid fa-phone"></i></a>
                                         {isLogedIn && (
                                             <button className="btn" onClick={() => {
                                                 handleLikeToggle(card._id as string);
