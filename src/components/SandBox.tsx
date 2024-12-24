@@ -17,7 +17,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
     const [openUpdateUser, setOpenUpdateUser] = useState<boolean>(false);
     const [statusChange, setStatusChange] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const usersPerPage = 300;
+    const usersPerPage = 250;
 
     useEffect(() => {
         getAllUsers()
