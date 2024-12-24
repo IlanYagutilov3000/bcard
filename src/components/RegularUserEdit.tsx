@@ -1,11 +1,12 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
-import { editUser, getUserByIdTwo } from "../services/userService";
+import { editUser, editUserStatus, getUserByIdTwo } from "../services/userService";
 import { UpdatedUser } from "../interfaces/UpdatedUser";
 import { FormikValues, useFormik } from "formik";
 import * as yup from "yup";
 import { errorMsg, successMsg } from "../services/feedback";
 import { SiteTheme } from "../App";
+import { useUserContext } from "../context/userContext";
 
 interface RegularUserEditProps {
 
@@ -13,9 +14,10 @@ interface RegularUserEditProps {
 
 const RegularUserEdit: FunctionComponent<RegularUserEditProps> = () => {
     const { id } = useParams();
-    const [user, setUser] = useState<UpdatedUser | null>(null)
     const navigate: NavigateFunction = useNavigate()
     const { color, background } = useContext(SiteTheme);
+    const { auth } = useUserContext()
+    const [statusChange, setStatusChange] = useState<boolean>(true);
 
     useEffect(() => {
         getUserByIdTwo(id as string).then((res) => {
@@ -207,6 +209,27 @@ const RegularUserEdit: FunctionComponent<RegularUserEditProps> = () => {
                                 {formik.touched.address?.zip && formik.errors.address?.zip && <p className="text-danger fs-6" >{formik.errors.address?.zip}</p>}
                             </div>
                         </div>
+                        {!auth?.isBusiness && (<div className="form-check">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value=""
+                                id="flexCheckDefault"
+                                onChange={() => {
+                                    editUserStatus(id as string, statusChange)
+                                        .then((res) => {
+                                            successMsg("You became a Business aCcount")
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                            errorMsg("User Didn't Change to Business");
+                                        });
+                                }}
+                            />
+                            <label className="form-check-label" htmlFor="flexCheckDefault">
+                                Business Account
+                            </label>
+                        </div>)}
                         <button type="submit" disabled={!formik.dirty || !formik.isValid} className="btn btn-primary" >submit</button>
                     </div>
                 </form>
