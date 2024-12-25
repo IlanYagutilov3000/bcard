@@ -218,7 +218,7 @@ const RegularUserEdit: FunctionComponent<RegularUserEditProps> = () => {
                                 onChange={() => {
                                     editUserStatus(id as string, statusChange)
                                         .then((res) => {
-                                            successMsg("You became a Business aCcount")
+                                            successMsg("You became a Business Account")
                                         })
                                         .catch((err) => {
                                             console.log(err);
