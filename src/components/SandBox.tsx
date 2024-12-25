@@ -97,6 +97,7 @@ const SandBox: FunctionComponent<SandBoxProps> = () => {
                                         )}
                                         <td>{user.address.country}</td>
                                         <td>
+                                            {/* May take 1.5sec to 3sec to see the changed due to the amount of users */}
                                             <button
                                                 className="btn"
                                                 onClick={() => {
